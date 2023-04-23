@@ -25,12 +25,12 @@ def making_y_points(x):
     return y
 
 # making each of our trees
-def tree_making(depth):        
-    root = my_operator()
-    t = tree.Tree(root)
-    t.leftChild(tree_making(depth-1))
-    t.rightChild(tree_making(depth-1))
-    return t
+def tree_making(depth):  
+    t = tree.Tree(depth)
+    t._fit()
+    print(t.root.is_leaf)
+    t.printTree()
+    return t  
 
 # making a list of all random trees
 def all_trees(amount, range):

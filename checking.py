@@ -14,6 +14,7 @@ def tree_making(depth):
     else:
         data = my_operator()
         children = []
+        # node = tree.Node(data, depth)
         if(data == 'sin' or data == 'cos'):
             child = tree_making(depth-1)
             children.append(child)
@@ -34,6 +35,8 @@ def tree_making(depth):
             #     print(f"depth is {depth}. right child is {right_child.data}")
             # else:
             #     print(f"depth is {depth}. right child is {right_child}")
+        node = tree.Node(data, depth, children)
+
         return(tree.Tree(data, children))
 
 
