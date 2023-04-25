@@ -1,5 +1,6 @@
 import random
 from sklearn.metrics import mean_squared_error
+import math
 
 
 # choosing the operator
@@ -73,8 +74,7 @@ class Tree:
             else:
                 return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
             
-            
-            
+                    
             
 # making each of our trees
 def tree_making(max_depth):  
@@ -108,9 +108,8 @@ def _mse(tree, list_x, list_y):
         zero_flag = False
         t_y = 0
         t_y = calculator(tree.root, single_x, zero_flag)
-        if(zero_flag or abs(t_y)>100000):
+        if(zero_flag or abs(t_y)>100000 or math.isinf(t_y) or math.isnan(t_y)):
             t_y = 100000
-        # print("y is: ", t_y)
         trees_y.append(t_y)
     mse = mean_squared_error(list_y, trees_y)
 
@@ -127,16 +126,14 @@ def calculator(root, x, _flag):
         # we have not consider sin and cos
         left_val = calculator(root.children[0], x, _flag)
         right_val = calculator(root.children[1], x, _flag)
+
         if(root.operator == '/' and right_val == 0):
             _flag = True
-        if(left_val>100000 or right_val> 100000):
-            _flag = True
-        # if(math.isnan(left_val) or math.isnan(right_val)):
-        #     print()
-        
-        if (root.operator == '+'): return left_val + right_val
-        elif(root.operator == '-'): return left_val - right_val
-        elif(root.operator == '*'): return left_val * right_val
-        elif(root.operator == '/'): return left_val / right_val
-        elif(root.operator == '**'): return left_val ** right_val
+            right_val = 1
 
+        return(
+        ((root.operator == '+') and (left_val + right_val)) or
+        ((root.operator == '-') and (left_val - right_val)) or
+        ((root.operator == '*') and (left_val * right_val)) or
+        ((root.operator == '/') and (left_val / right_val)) or
+        ((root.operator == '**') and (left_val ** right_val)))
