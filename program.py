@@ -1,40 +1,52 @@
 import numpy as np
 from random import random
+import random
 import math
 import tree
 import print_tree_mse
 
+
+def tournament(p_trees, k):
+    couple_parent = []
+    for j in range(2):
+        best_mse = float('inf')
+        best_tree = None
+        for z in range(k):
+            t = random.choice(p_trees)  
+            if(t.mse<best_mse):
+                best_mse = t.mse
+                best_tree = t
+        couple_parent.append(best_tree)
+    return couple_parent[0], couple_parent[1]
+
     
-def tonometer(tree_mse, k):
+
+def making_children(parent_trees, k, pc):
     
-    lenght = len(tree_mse)
-    tt = tree_mse
-    couple_parents = []
+    lenght = len(parent_trees)
+    children = []
     
     for i in range(int(lenght/2)):
-        # each couple
-        for j in range(2):
-            k = []
-            #adding 3 random trees in k
-            for z in range(k):
-                t = random.choice(tt)  
-                k.append(t)
-            # how to choose the one with min mse???
-        #how to make a couple ??? (of just the trees)
-    # adding each couple to our list
+        #returning a couple of parents
+        parent1, parent2 = tournament(parent_trees, k)        
+        # we pass our couple to cross-over function(that 'pc' percent will do it)
+        child1, child2 = cross_over(parent1, parent2, pc)
+        
+
             
     
-def cross_over(parents, pc):
-    for p in parents:
-        x = random()
-        if(x<=0.7):
-            co(p)
+def cross_over(p1, p2, pc):
+    x = random()
+    if(x<=0.7):
+        # picking a node from each parent
+        node1 = random.choice(0, p1.node_amount)
+        node2 = random.choice(0, p2.node_amount)
+        # make new trees and change the choosen node to each other
+    else:
+        return p1, p2
             
             
-def co(couple):
-    t1 = couple[0]
-    t2 = couple[1]
-    
+
 
 
 if __name__ == "__main__":
@@ -56,25 +68,17 @@ if __name__ == "__main__":
     max_depth = 4
     
     # population zero
-    list_of_trees = tree.all_trees(amount_of_trees, max_depth)
+    list_of_parents = tree.all_trees(amount_of_trees, max_depth)
     print()
     
-    # [(tree1, mse1), (tree2, mse2), ... ]
-    tree_MSE = tree.all_mse(list_of_trees, X, Y)
-    print()
-    
-    print_tree_mse.printing(tree_MSE)
+    #add to each tree the mse property
+    tree.calculating_mse(list_of_parents, X, Y)
     
     # choosing parent trees (with tonometer procedure)
     # list of (amount_of_trees / 2) couple trees
     # k parameter: choosing the best mse between random k tree
     # we have couple parents of just trees
     k = 3
-    couple_parents = tonometer(tree_MSE, k)
-    
-    
-    # probblity of doing cross-over
-    # 70 percent of couples are going to cross over (the are going to change theirs nodes together randomly)
-    pc = 0.7
-    # children = cross_over(couple_parents, pc)
+    pc = 0.5 # the probblity of cross-over
+    list_of_children = making_children(list_of_parents, k, pc)
     

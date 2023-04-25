@@ -32,15 +32,19 @@ class Node:
 class Tree:
     # my tree class
 
-    def __init__(self, _max_depth):
+    def __init__(self, _max_depth=None):
         self.max_depth = _max_depth
         self.root = None
         self.in_order = None
+        self.mse = None
+        self.node_amount = 0
+        
         
     def _fit(self):
-        self.root = self._grow_tree(self.max_depth)
+        self.root = self._grow_tree(self.max_depth, self.node_amount)
         
-    def _grow_tree(self, max_depth, CS = 2):
+        
+    def _grow_tree(self, max_depth, node_amount, CS = 2):
         
         depth = random.randint(0, max_depth)
           
@@ -53,10 +57,11 @@ class Tree:
             x = my_leaf()
         else:
             for i in range(CS):
-                children.append(self._grow_tree(depth-1))
+                children.append(self._grow_tree(depth-1, node_amount))
 
         n = Node(depth, x, children)
         if(depth==0): n.is_leaf = True
+        node_amount += 1
         return n
             
 
@@ -74,7 +79,6 @@ class Tree:
             else:
                 return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
             
-                    
             
 # making each of our trees
 def tree_making(max_depth):  
@@ -93,13 +97,14 @@ def all_trees(amount, max_depth):
         trees.append(tree)
     return trees
 
-def all_mse(tree_list, X, Y):
-    trees_mse = []
+def calculating_mse(tree_list, X, Y):
+    # trees_mse = []
     for t in tree_list:
-        t_mse = _mse(t, X, Y)
-        print(f"tree = {t.in_order} and its mse = {t_mse}", )
-        trees_mse.append((t, t_mse))
-    return trees_mse
+        # t_mse = _mse(t, X, Y)
+        t.mse = _mse(t, X, Y)
+        print(f"tree = {t.in_order} and its mse is = {t.mse}", )
+        # trees_mse.append(t)
+    # return trees_mse
             
         
 def _mse(tree, list_x, list_y):
