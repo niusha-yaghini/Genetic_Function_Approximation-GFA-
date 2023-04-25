@@ -1,9 +1,20 @@
 import random
+from sklearn.metrics import mean_squared_error
+
 
 # choosing the operator
 def my_operator():
-    op = ['+', '-', '*', '/', 'sin', 'cos']
+    op = ['+', '-', '*', '/', '**']
     return(random.choice(op))
+
+def my_leaf():
+    leaf = [random.randint(1, 9), 'x']
+    return(random.choice(leaf))
+
+def single_op(op):
+    if(op=='sin' or op=='cos' or op=='tan' or op=='cot'):
+        return True
+    else: return False
 
 class Node:
     # my node class 
@@ -20,48 +31,112 @@ class Node:
 class Tree:
     # my tree class
 
-    def __init__(self, _depth):
-        self.depth = _depth
+    def __init__(self, _max_depth):
+        self.max_depth = _max_depth
         self.root = None
+        self.in_order = None
         
     def _fit(self):
-        self.root = self._grow_tree(self.depth)
+        self.root = self._grow_tree(self.max_depth)
         
-    def _grow_tree(self, depth, CS = 2):
-            
+    def _grow_tree(self, max_depth, CS = 2):
+        
+        depth = random.randint(0, max_depth)
+          
         x = my_operator()
-        
-        if (x=='sin' or x=='cos'):
-            CS = 1
-        
-        children = []
+        if(single_op(x)): CS=1
 
-        if(depth==1):
-            if(CS==1):
-                children=['x']
-            else:
-                children.append('x')
-                children.append(random.randint(0, 9))
+        children = []
+        
+        if(depth==0):
+            x = my_leaf()
         else:
             for i in range(CS):
                 children.append(self._grow_tree(depth-1))
-                        
+
         n = Node(depth, x, children)
-        if(depth==1): n.is_leaf = True
+        if(depth==0): n.is_leaf = True
         return n
             
+
     def printTree (self):
-        # print("printing the whole tree")
-        print(self.to_math_string(self.root))
+        self.in_order = self.to_math_string(self.root)
+        print(self.in_order)        
+
     
     def to_math_string(self, node):
         if node.is_leaf:
-            if len(node.children) == 1:
-                return f"{node.operator}({node.children[0]})"
-            else:
-                return f"({node.children[0]}{node.operator}{node.children[1]})"
+            return f"{node.operator}"
         else:
             if len(node.children) == 1:
                 return f"{node.operator}({self.to_math_string(node.children[0])})"
             else:
                 return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
+            
+            
+            
+            
+# making each of our trees
+def tree_making(max_depth):  
+    t = Tree(max_depth)
+    t._fit()
+    t.printTree()
+    print()
+    return t
+    
+# making a list of all random trees
+def all_trees(amount, max_depth):
+    trees = []
+    for i in range(amount):
+        print(f"tree number {i+1} is: ")
+        tree = tree_making(max_depth)
+        trees.append(tree)
+    return trees
+
+def all_mse(tree_list, X, Y):
+    trees_mse = []
+    for t in tree_list:
+        t_mse = _mse(t, X, Y)
+        print(f"tree = {t.in_order} and its mse = {t_mse}", )
+        trees_mse.append((t, t_mse))
+    return trees_mse
+            
+        
+def _mse(tree, list_x, list_y):
+    trees_y = []
+    for single_x in list_x:
+        zero_flag = False
+        t_y = 0
+        t_y = calculator(tree.root, single_x, zero_flag)
+        if(zero_flag or abs(t_y)>100000):
+            t_y = 100000
+        # print("y is: ", t_y)
+        trees_y.append(t_y)
+    mse = mean_squared_error(list_y, trees_y)
+
+    return mse
+
+    
+def calculator(root, x, _flag):
+    if(root.is_leaf):
+        if(root.operator == 'x'): 
+            return x
+        else: 
+            return root.operator
+    else:
+        # we have not consider sin and cos
+        left_val = calculator(root.children[0], x, _flag)
+        right_val = calculator(root.children[1], x, _flag)
+        if(root.operator == '/' and right_val == 0):
+            _flag = True
+        if(left_val>100000 or right_val> 100000):
+            _flag = True
+        # if(math.isnan(left_val) or math.isnan(right_val)):
+        #     print()
+        
+        if (root.operator == '+'): return left_val + right_val
+        elif(root.operator == '-'): return left_val - right_val
+        elif(root.operator == '*'): return left_val * right_val
+        elif(root.operator == '/'): return left_val / right_val
+        elif(root.operator == '**'): return left_val ** right_val
+
