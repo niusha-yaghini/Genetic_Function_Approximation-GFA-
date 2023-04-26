@@ -4,78 +4,38 @@ import random
 import math
 import tree
 import print_tree_mse
-
-
-def tournament(p_trees, k):
-    couple_parent = []
-    for j in range(2):
-        best_mse = float('inf')
-        best_tree = None
-        for z in range(k):
-            t = random.choice(p_trees)  
-            if(t.mse<best_mse):
-                best_mse = t.mse
-                best_tree = t
-        couple_parent.append(best_tree)
-    return couple_parent[0], couple_parent[1]
+import copy
 
     
-
-def making_children(parent_trees, k, pc):
+def change_node(child_root1, change_node1, child_root2, change_node2):
     
-    lenght = len(parent_trees)
-    children = []
+    queue1 = []
+    queue1.append(child_root1)
     
-    for i in range(int(lenght/2)):
-        #returning a couple of parents
-        parent1, parent2 = tournament(parent_trees, k)        
-        # we pass our couple to cross-over function(that 'pc' percent will do it)
-        child1, child2 = cross_over(parent1, parent2, pc)
-        children.append(child1)
-        children.append(child2)
-    
-    return children
+    while change_node1!=None:
+        node = queue1.pop()
+        if(node!=change_node1):
+            for i in range(len(node.children)):
+                queue1.append(node.children[i])
+        else:
+            node = change_node2
+            queue1.append(node)
+            change_node1 = None
+            
+    queue2 = []
+    queue2.append(child_root2)
+            
+    while change_node2!=None:
+        node = queue2.pop()
+        if(node!=change_node2):
+            for j in range(len(node.children)):
+                queue2.append(node.children[j])
+        else:
+            node = change_node1
+            queue2.append(node)
+            change_node2 = None
+            
         
-
-def change_node(parent_root1, change_node1, parent_root2, change_node2):
-
-    child1 = tree.Tree()
-    child2 = tree.Tree()
-    
-    
-    # while(i!=change_node1):
-        
-        
-        # child1.root = root1
-        # i+=1
-        
-        
-# def BFSearch(self, n):  
-
-#     # Initially marking all vertices as not visited  
-#     visited_vertices = ( len(self.graph ))*[False]  
-
-#     # creating a queue for visited vertices  
-#     queue = []  
-
-#     # setting source node as visited and adding it to the queue  
-#     visited_vertices[n] = True  
-#     queue.append(n)  
-        
-
-#     while queue:  
-
-#         # popping the element from the queue which is printed  
-#         n = queue.pop(0)  
-#         print (n, end = " ")  
-
-#         # getting vertices adjacent to the vertex n which is dequed.   
-#         for v in self.graph[ n ]:  
-#             if visited_vertices[v] == False:  
-#                 queue.append(v)  
-#                 visited_vertices[v] = True  
-
-          
 def make_list_node(root, nodes):
     
     if(len(root.children)!=0):
@@ -84,9 +44,7 @@ def make_list_node(root, nodes):
             make_list_node(i, nodes)
                 
     return nodes
-        
-        
-        
+
     
 def cross_over(parent1, parent2, pc):
     x = random()
@@ -101,16 +59,47 @@ def cross_over(parent1, parent2, pc):
         change_node1 = random.choice(nodes1)
         change_node2 = random.choice(nodes2)
 
+        child1 = copy.deepcopy(parent1)
+        child2 = copy.deepcopy(parent2)
 
         # making the child nodes with changing the nodes        
-        child1, child2 = change_node(parent1.root, change_node1, parent2.root, change_node2)
+        change_node(child1.root, change_node1, child2.root, change_node2)
         
         return child1, child2
 
     else:
         return parent1, parent2
             
-            
+        
+def tournament(p_trees, k):
+    couple_parent = []
+    for j in range(2):
+        best_mse = float('inf')
+        best_tree = None
+        for z in range(k):
+            t = random.choice(p_trees)  
+            if(t.mse<best_mse):
+                best_mse = t.mse
+                best_tree = t
+        couple_parent.append(best_tree)
+    return couple_parent[0], couple_parent[1]
+        
+          
+def making_children(parent_trees, k, pc):
+    
+    lenght = len(parent_trees)
+    children = []
+    
+    for i in range(int(lenght/2)):
+        #returning a couple of parents
+        parent1, parent2 = tournament(parent_trees, k)        
+        # we pass our couple to cross-over function(that 'pc' percent will do it)
+        child1, child2 = cross_over(parent1, parent2, pc)
+        children.append(child1)
+        children.append(child2)
+    
+    return children
+  
 
 if __name__ == "__main__":
     

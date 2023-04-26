@@ -27,6 +27,9 @@ class Node:
         self.is_leaf = _is_leaf
         # value is the answer of a specific x (since this node)
         self.value = _value
+        
+        
+    
 
 
 class Tree:
