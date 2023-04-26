@@ -31,23 +31,86 @@ def making_children(parent_trees, k, pc):
         parent1, parent2 = tournament(parent_trees, k)        
         # we pass our couple to cross-over function(that 'pc' percent will do it)
         child1, child2 = cross_over(parent1, parent2, pc)
+        children.append(child1)
+        children.append(child2)
+    
+    return children
         
 
-            
+def change_node(parent_root1, change_node1, parent_root2, change_node2):
+
+    child1 = tree.Tree()
+    child2 = tree.Tree()
     
-def cross_over(p1, p2, pc):
+    
+    # while(i!=change_node1):
+        
+        
+        # child1.root = root1
+        # i+=1
+        
+        
+# def BFSearch(self, n):  
+
+#     # Initially marking all vertices as not visited  
+#     visited_vertices = ( len(self.graph ))*[False]  
+
+#     # creating a queue for visited vertices  
+#     queue = []  
+
+#     # setting source node as visited and adding it to the queue  
+#     visited_vertices[n] = True  
+#     queue.append(n)  
+        
+
+#     while queue:  
+
+#         # popping the element from the queue which is printed  
+#         n = queue.pop(0)  
+#         print (n, end = " ")  
+
+#         # getting vertices adjacent to the vertex n which is dequed.   
+#         for v in self.graph[ n ]:  
+#             if visited_vertices[v] == False:  
+#                 queue.append(v)  
+#                 visited_vertices[v] = True  
+
+          
+def make_list_node(root, nodes):
+    
+    if(len(root.children)!=0):
+        for i in root.children:
+            nodes.append(i)
+            make_list_node(i, nodes)
+                
+    return nodes
+        
+        
+        
+    
+def cross_over(parent1, parent2, pc):
     x = random()
-    if(x<=0.7):
-        # picking a node from each parent
-        node1 = random.choice(0, p1.node_amount)
-        node2 = random.choice(0, p2.node_amount)
-        # make new trees and change the choosen node to each other
+    if(x<=pc):
+        # making a list of all nodes
+        nodes1 = []
+        make_list_node(parent1.root, nodes1)
+        nodes2 = []
+        make_list_node(parent2.root, nodes2)
+        
+        # choosing a node to change
+        change_node1 = random.choice(nodes1)
+        change_node2 = random.choice(nodes2)
+
+
+        # making the child nodes with changing the nodes        
+        child1, child2 = change_node(parent1.root, change_node1, parent2.root, change_node2)
+        
+        return child1, child2
+
     else:
-        return p1, p2
+        return parent1, parent2
             
             
-
-
 
 if __name__ == "__main__":
     
