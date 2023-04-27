@@ -7,12 +7,16 @@ import copy
 import matplotlib.pyplot as plt
     
 def change_node(child_root1, change_node1, child_root2, change_node2):
+    # change the specific node1 in tree1 with the specific node2 in tree2 with each other
+    #       and making new trees as children
     
     queue1 = []
     queue1.append(child_root1)
     
+    # making a cope of node1, because we will lose it after we change it with node2
     cn1 = copy.deepcopy(change_node1)
     
+    # searching in tree1 untill we find our specific node, and changing it with node2
     flag1 = True
     while flag1:
         node = queue1.pop()
@@ -28,7 +32,8 @@ def change_node(child_root1, change_node1, child_root2, change_node2):
             
     queue2 = []
     queue2.append(child_root2)
-            
+         
+    # searching in tree2 untill we find our specific node, and changing it with node1 (cn1)  
     flag2 = True
     while flag2:
         node = queue2.pop()
@@ -43,6 +48,8 @@ def change_node(child_root1, change_node1, child_root2, change_node2):
             flag2 = False          
         
 def make_list_node(root, nodes):
+    # making a list of all nodes in our tree
+    
     nodes.append(root)
     if(len(root.children)!=0):
         for i in root.children:
@@ -51,6 +58,8 @@ def make_list_node(root, nodes):
     return nodes
 
 def cross_over(parent1, parent2, pc):
+    # doing the cross-over with the given cross-over-rate (pc), on 2 tree
+    
     x = rnd.random()
     if(x<=pc):
 
@@ -71,22 +80,29 @@ def cross_over(parent1, parent2, pc):
         # print("parent1.in_order = ", parent1.in_order)
         # print("parent2.in_order = ", parent2.in_order)
 
-        # print("change_node1.operator = ", change_node1.operator)
-        # print("change_node2.operator = ", change_node2.operator)
+        # print("change_node1.operator (before change) = ", change_node1.operator)
+        # print("change_node2.operator (before change) = ", change_node2.operator)
 
         change_node(child1.root, change_node1, child2.root, change_node2)
 
         child1.print_tree()
         child2.print_tree()
-        # print("child1.in_order = ", child1.in_order)
-        # print("child2.in_order = ", child2.in_order)
+
+        # print("parent1.in_order = ", parent1.in_order)
+        # print("parent2.in_order = ", parent2.in_order)
+
+        # print("change_node1.operator (after change) = ", change_node1.operator)
+        # print("change_node2.operator (after change) = ", change_node2.operator)
         
         return child1, child2
-
+    
     else:
         return parent1, parent2
                    
 def tournament(p_trees, k):
+    # using the tournament preceture for selecting a couple tree
+    # in this method we choose 3 tree randomly 2 times (2 times becuase we want a couple), and select the best-mse tree
+    
     couple_parent = []
     for j in range(2):
         best_mse = float('inf')
@@ -100,6 +116,7 @@ def tournament(p_trees, k):
     return couple_parent[0], couple_parent[1]       
           
 def making_children(parent_trees, k, pc):
+    # we want to make children on base of a list of trees (parent_trees)
     
     lenght = len(parent_trees)
     children = []
@@ -144,12 +161,11 @@ if __name__ == "__main__":
     list_of_parents = tree.all_trees(amount_of_trees, max_depth)
     parents_average_mse, parents_best_mse = tree.calculating_mse(list_of_parents, X, Y)
     
-    
+    # making lists for showing 
     x_generation_number = []
     y_average_of_each = []
     y_best_of_each = []
     y_best_of_all = []
-    
     
     for i in range(amount_of_generations):
     

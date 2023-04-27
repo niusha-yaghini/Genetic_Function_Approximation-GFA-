@@ -4,16 +4,15 @@ import math
 
 # choosing the operator
 def my_operator():
-    # op = ['+', '-', '*', '/', '**']
-    op = ['**']
+    op = ['+', '-', '*', '/', '**']
     return(random.choice(op))
 
+# choosing the leaf
 def my_leaf():
-    # leaf = [random.randint(1, 9), 'x']
-    leaf = ['x']
-
+    leaf = [random.randint(1, 9), 'x']
     return(random.choice(leaf))
 
+# checking type of function (1 child needed or 2 childs needed)
 def single_op(op):
     if(op=='sin' or op=='cos' or op=='tan' or op=='cot'):
         return True
@@ -42,25 +41,32 @@ class Tree:
         
     def _grow_tree(self, max_depth, CS = 2):
         
-        # depth = random.randint(0, max_depth)
-        depth = max_depth
+        # choosing a random depth each time (between 0 to max given depth)
+        depth = random.randint(0, max_depth)
           
+        # choosing the operator for current node
         x = my_operator()
+        
+        # check the type of our function and fix the amount of our children needed number
         if(single_op(x)): CS=1
 
         children = []
         
+        # building the tree base on current depth and children needed
         if(depth==0):
             x = my_leaf()
         else:
             for i in range(CS):
                 children.append(self._grow_tree(depth-1))
 
+        # making the node 
         n = Node(depth, x, children)
         if(depth==0): n.is_leaf = True
         return n          
 
     def print_tree (self):
+        # making the inorder show of our tree
+        
         self.in_order = self.to_math_string(self.root)
         print(self.in_order)        
    
@@ -73,17 +79,18 @@ class Tree:
             else:
                 return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
 
-
-# making each of our trees
 def tree_making(max_depth):  
+    # making each of our trees
+
     t = Tree(max_depth)
     t._fit()
     t.print_tree()
     print()
     return t     
         
-# making a list of all random trees
 def all_trees(amount, max_depth):
+    # making a list of all random trees (generation 0)
+
     trees = []
     for i in range(amount):
         print(f"tree number {i+1} is: ")
@@ -92,7 +99,8 @@ def all_trees(amount, max_depth):
     return trees
         
 def calculator(root, x):
-    print("i am called")
+    # doing the calculating for each function that we have made with given input
+    
     if(root.is_leaf):
         if(root.operator == 'x'): 
             return x
@@ -104,22 +112,24 @@ def calculator(root, x):
         left_val = calculator(root.children[0], x)
         right_val = calculator(root.children[1], x)
 
+        # checking for dividing error
         divide_flag = False
         if(root.operator == '/' and right_val == 0):
             divide_flag = True
             right_val = 1
 
+        # checking for power error
         power_flag = False
         if(left_val==0 and right_val<0):
             power_flag = True
             right_val = 1
 
+        # checking for making large numbers error
         large_power_flag = False
         if(root.operator == '**'):
             if(left_val>100000 or left_val<-100000 or right_val>100000 or right_val<-100000):
                 large_power_flag = True
         
-        # print("before return")
         return(
         ((root.operator == '+') and (left_val + right_val)) or
         ((root.operator == '-') and (left_val - right_val)) or
@@ -128,6 +138,8 @@ def calculator(root, x):
         ((root.operator == '**') and (not power_flag) and (not large_power_flag) and (left_val ** right_val)))
         
 def _mse(tree, list_x, list_y):
+    # calculating each tree mse with given inputs and outputs
+    
     trees_y = []
     for single_x in list_x:
         t_y = calculator(tree.root, single_x)
@@ -141,6 +153,8 @@ def _mse(tree, list_x, list_y):
     return mse
 
 def calculating_mse(tree_list, X, Y):
+    # calculating the average-mse and best-mse for all of our trees and given inputs and outputs
+    
     i = 1
     mse_sum = 0
     best_mse = float('inf')
