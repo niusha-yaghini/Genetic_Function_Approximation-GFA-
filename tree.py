@@ -144,8 +144,14 @@ def _mse(tree, list_x, list_y):
         
 def calculating_mse(tree_list, X, Y):
     i = 1
+    mse_sum = 0
+    best_mse = float('inf')
     for t in tree_list:
         t.mse = _mse(t, X, Y)
+        mse_sum += t.mse
+        if (t.mse<best_mse): best_mse = t.mse
         print(f"tree number {i} = {t.in_order} and its mse is = {t.mse}")
         i += 1
+
+    return mse_sum/i, best_mse
     

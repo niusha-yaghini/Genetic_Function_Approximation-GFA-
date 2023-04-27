@@ -4,6 +4,7 @@ import math
 import tree
 import print_tree_mse
 import copy
+import matplotlib.pyplot as plt
 
     
 def change_node(child_root1, change_node1, child_root2, change_node2):
@@ -70,18 +71,18 @@ def cross_over(parent1, parent2, pc):
         change_node1 = rnd.choice(nodes1)
         change_node2 = rnd.choice(nodes2)
         
-        print("parent1.in_order = ", parent1.in_order)
-        print("parent2.in_order = ", parent2.in_order)
+        # print("parent1.in_order = ", parent1.in_order)
+        # print("parent2.in_order = ", parent2.in_order)
 
-        print("change_node1.operator = ", change_node1.operator)
-        print("change_node2.operator = ", change_node2.operator)
+        # print("change_node1.operator = ", change_node1.operator)
+        # print("change_node2.operator = ", change_node2.operator)
 
         change_node(child1.root, change_node1, child2.root, change_node2)
 
         child1.printTree()
         child2.printTree()
-        print("child1.in_order = ", child1.in_order)
-        print("child2.in_order = ", child2.in_order)
+        # print("child1.in_order = ", child1.in_order)
+        # print("child2.in_order = ", child2.in_order)
         
         return child1, child2
 
@@ -117,7 +118,8 @@ def making_children(parent_trees, k, pc):
         children.append(child2)
     
     return children
-  
+      
+
 
 if __name__ == "__main__":
     
@@ -137,12 +139,9 @@ if __name__ == "__main__":
     amount_of_trees = 20
     max_depth = 4
     
-    # population zero
+    # population number zero
     list_of_parents = tree.all_trees(amount_of_trees, max_depth)
-    print(len(list_of_parents))
-    
-    #add to each tree the mse property
-    tree.calculating_mse(list_of_parents, X, Y)
+    parents_average_mse, parents_best_mse = tree.calculating_mse(list_of_parents, X, Y)
     
     # choosing parent trees (with tonometer procedure)
     # list of (amount_of_trees / 2) couple trees
@@ -150,5 +149,34 @@ if __name__ == "__main__":
     # we have couple parents of just trees
     k = 3
     pc = 0.5 # the probblity of cross-over
-    list_of_children = making_children(list_of_parents, k, pc)
+    
+    # list_of_children = making_children(list_of_parents, k, pc)
+    # children_average_mse, children_best_mse = tree.calculating_mse(list_of_children, X, Y)
+
+    x_axis = []
+    y_axis = []
+    
+    amount_of_generations = 10
+    
+    for i in range(amount_of_generations):
+    
+        list_of_children = making_children(list_of_parents, k, pc)
+        children_average_mse, children_best_mse = tree.calculating_mse(list_of_children, X, Y)
+        list_of_parents = list_of_children
+        
+        x_axis.append(i)
+        y_axis.append(children_best_mse)
+
+
+    plt.bar(x_axis, y_axis)
+    plt.title('function approximation with genetic')
+    plt.xlabel('number of generations')
+    plt.ylabel('best mse')
+    plt.show()    
+    
+    
+    # for now the new generation is the children
+    # we have not done mutation yet
+
+    print()
     
