@@ -9,7 +9,8 @@ def my_operator():
     return(random.choice(op))
 
 def my_leaf():
-    leaf = [random.randint(1, 9), 'x']
+    # leaf = [random.randint(1, 9), 'x']
+    leaf = ['x']
 
     return(random.choice(leaf))
 
@@ -41,7 +42,8 @@ class Tree:
         
     def _grow_tree(self, max_depth, CS = 2):
         
-        depth = random.randint(0, max_depth)
+        # depth = random.randint(0, max_depth)
+        depth = max_depth
           
         x = my_operator()
         if(single_op(x)): CS=1
@@ -58,7 +60,7 @@ class Tree:
         if(depth==0): n.is_leaf = True
         return n          
 
-    def printTree (self):
+    def print_tree (self):
         self.in_order = self.to_math_string(self.root)
         print(self.in_order)        
    
@@ -76,7 +78,7 @@ class Tree:
 def tree_making(max_depth):  
     t = Tree(max_depth)
     t._fit()
-    t.printTree()
+    t.print_tree()
     print()
     return t     
         
@@ -90,6 +92,7 @@ def all_trees(amount, max_depth):
     return trees
         
 def calculator(root, x):
+    print("i am called")
     if(root.is_leaf):
         if(root.operator == 'x'): 
             return x
@@ -111,22 +114,23 @@ def calculator(root, x):
             power_flag = True
             right_val = 1
 
-        # try:
+        large_power_flag = False
+        if(root.operator == '**'):
+            if(left_val>100000 or left_val<-100000 or right_val>100000 or right_val<-100000):
+                large_power_flag = True
+        
+        # print("before return")
         return(
         ((root.operator == '+') and (left_val + right_val)) or
         ((root.operator == '-') and (left_val - right_val)) or
         ((root.operator == '*') and (left_val * right_val)) or
         ((root.operator == '/') and (not divide_flag) and (left_val / right_val)) or
-        ((root.operator == '**') and (not power_flag) and (left_val ** right_val)))
-        # except OverflowError as e:
-        #     return 100000
+        ((root.operator == '**') and (not power_flag) and (not large_power_flag) and (left_val ** right_val)))
         
 def _mse(tree, list_x, list_y):
     trees_y = []
     for single_x in list_x:
-        # print("before calculator")
         t_y = calculator(tree.root, single_x)
-        # print("after calculator")
         try:
             if(math.isinf(t_y) or math.isnan(t_y) or t_y>100000 or t_y<-100000):
                 t_y = 100000

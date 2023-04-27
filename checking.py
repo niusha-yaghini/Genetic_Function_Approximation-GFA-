@@ -1,5 +1,6 @@
 import math
-import
+from sklearn.metrics import mean_squared_error
+import tree
 
 def calculator(root, x):
     if(root.is_leaf):
@@ -24,6 +25,7 @@ def calculator(root, x):
             right_val = 1
 
         # try:
+        print("before return")
         return(
         ((root.operator == '+') and (left_val + right_val)) or
         ((root.operator == '-') and (left_val - right_val)) or
@@ -33,19 +35,19 @@ def calculator(root, x):
         # except OverflowError as e:
         #     return 100000
         
-def _mse(tree, list_x, list_y):
-    trees_y = []
-    for single_x in list_x:
-        # print("before calculator")
-        t_y = calculator(tree.root, single_x)
-        # print("after calculator")
-        try:
-            if(math.isinf(t_y) or math.isnan(t_y) or t_y>100000 or t_y<-100000):
-                t_y = 100000
-        except:
-            t_y = 100000
-        trees_y.append(t_y)
-    mse = mean_squared_error(list_y, trees_y)
-    return mse
+max_depth = 2
+amount_of_trees = 1
+list_of_parents = tree.all_trees(amount_of_trees, max_depth)
+list_of_parents[0].print_tree()
+print(list_of_parents[0].in_order)
+x = 5
+t_y = calculator(list_of_parents[0].root, x)
+# print("t_y", t_y)
+# print("after calculator")
+try:
+    if(math.isinf(t_y) or math.isnan(t_y) or t_y>100000 or t_y<-100000):
+        t_y = 100000
+except:
+    t_y = 100000
 
-_mse()
+print(t_y)

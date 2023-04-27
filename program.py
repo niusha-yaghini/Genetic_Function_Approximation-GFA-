@@ -76,8 +76,8 @@ def cross_over(parent1, parent2, pc):
 
         change_node(child1.root, change_node1, child2.root, change_node2)
 
-        child1.printTree()
-        child2.printTree()
+        child1.print_tree()
+        child2.print_tree()
         # print("child1.in_order = ", child1.in_order)
         # print("child2.in_order = ", child2.in_order)
         
@@ -117,8 +117,19 @@ def making_children(parent_trees, k, pc):
 
 if __name__ == "__main__":
     
-    # using domain
+    # parameters
     domain = 20
+
+    amount_of_trees = 100
+    max_depth = 6
+
+    k = 3 # k tournoment parameter
+    pc = 0.5 # the probblity of cross-over
+
+    amount_of_generations = 10 
+
+    
+    # using domain
     f = open('in_out.txt', 'r')
     f.readline()
     X = []
@@ -129,30 +140,16 @@ if __name__ == "__main__":
         Y.append(int(a[1]))
         
     
-    # making trees
-    amount_of_trees = 40
-    max_depth = 4
-    
     # population number zero
     list_of_parents = tree.all_trees(amount_of_trees, max_depth)
     parents_average_mse, parents_best_mse = tree.calculating_mse(list_of_parents, X, Y)
     
-    # choosing parent trees (with tonometer procedure)
-    # list of (amount_of_trees / 2) couple trees
-    # k parameter: choosing the best mse between random k tree
-    # we have couple parents of just trees
-    k = 3
-    pc = 0.5 # the probblity of cross-over
     
-    # list_of_children = making_children(list_of_parents, k, pc)
-    # children_average_mse, children_best_mse = tree.calculating_mse(list_of_children, X, Y)
-
-    x_axis = []
+    x_generation_number = []
     y_average_of_each = []
     y_best_of_each = []
     y_best_of_all = []
     
-    amount_of_generations = 10
     
     for i in range(amount_of_generations):
     
@@ -160,35 +157,36 @@ if __name__ == "__main__":
         children_average_mse, children_best_mse = tree.calculating_mse(list_of_children, X, Y)
         list_of_parents = list_of_children
         
-        x_axis.append(i)
+        x_generation_number.append(i)
         y_best_of_each.append(children_best_mse)
         y_best_of_all.append(min(y_best_of_each))
         y_average_of_each.append(children_average_mse)
 
 
     fig, ax = plt.subplots()
-    best_of_each,  = plt.plot(x_axis, y_best_of_each, label='best of this generation',  linewidth=3)
-    best_of_all, = plt.plot(x_axis, y_best_of_all, label='best of all generations since now')
+    best_of_each,  = plt.plot(x_generation_number, y_best_of_each, label='best of this generation',  linewidth=3)
+    best_of_all, = plt.plot(x_generation_number, y_best_of_all, label='best of all generations since now')
 
     ax.set_title("function approximation with genetic")
     ax.legend(handles=[best_of_each, best_of_all])
-    name = "result_" + str(4) + '.png'
+    name = "result_number_6_" + str(amount_of_trees) + '.png'
 
     plt.savefig(name)
     plt.show()
     
     print()
     
-    fig, ax = plt.subplots()
-    average_of_each, = plt.plot(x_axis, y_average_of_each, label='average of this generation')
-    ax.set_title("function approximation with genetic")
-    ax.legend(handles=[best_of_each, best_of_all])
-    name = "average_" + str(1) + '.png'
+    # fig, ax = plt.subplots()
+    # average_of_each, = plt.plot(x_generation_number, y_average_of_each, label='average of this generation')
+    # ax.set_title("function approximation with genetic")
+    # ax.legend(handles=[best_of_each, best_of_all])
+    # name = "average_" + str(1) + '.png'
 
-    plt.savefig(name)
-    plt.show()
+    # plt.savefig(name)
+    # plt.show()
 
 
+    # we have not use sin and cos yet
     # for now the new generation is the children
     # we have not done mutation yet
 
