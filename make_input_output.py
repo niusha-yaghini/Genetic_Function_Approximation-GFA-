@@ -9,7 +9,7 @@ def making_x_points(domain):
     return x
 
 # making the y points    
-def making_y_points(x):
+def making_y_points1(x):
     y = [((2*i)+3) for i in x]
     return y
 
@@ -36,13 +36,13 @@ def making_y_points6(x):
 
 if __name__ == "__main__":
     
-    f = open('in_out6.txt', 'w')
+    f = open('in_out3.txt', 'w')
 
-    f.write("our function is: (x^3) + 7*(x^2) + 7*x \n")
+    f.write("our function is: sin(x)+cos(2*x) \n")
 
     domain = 20
     x = making_x_points(domain)
-    y = making_y_points6(x)
+    y = making_y_points4(x)
     
     for i in range(domain):
         f.write(f"{x[i]}, {y[i]}\n")

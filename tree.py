@@ -73,7 +73,7 @@ class Tree:
         # making the inorder show of our tree
         
         self.in_order = self.to_math_string(self.root)
-        print(self.in_order)        
+        # print(self.in_order)        
    
     def to_math_string(self, node):
         if(node.is_leaf):
@@ -90,7 +90,7 @@ def tree_making(max_depth):
     t = Tree(max_depth)
     t._fit()
     t.print_tree()
-    print()
+    # print()
     return t     
         
 def all_trees(amount, max_depth):
@@ -98,7 +98,7 @@ def all_trees(amount, max_depth):
 
     trees = []
     for i in range(amount):
-        print(f"tree number {i+1} is: ")
+        # print(f"tree number {i+1} is: ", end='')
         tree = tree_making(max_depth)
         trees.append(tree)
     return trees
