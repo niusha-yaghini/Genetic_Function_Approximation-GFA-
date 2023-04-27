@@ -69,7 +69,6 @@ class Tree:
                 return f"{node.operator}({self.to_math_string(node.children[0])})"
             else:
                 return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
-        
 
 # making each of our trees
 def tree_making(max_depth):  
@@ -78,7 +77,6 @@ def tree_making(max_depth):
     t.printTree()
     print()
     return t     
-     
         
 # making a list of all random trees
 def all_trees(amount, max_depth):
@@ -98,9 +96,7 @@ def calculator(root, x):
             return root.operator
     else:
         # we have not consider sin and cos
-        # left_val = calculator(root.children[0], x, _flag)
-        # right_val = calculator(root.children[1], x, _flag)
-
+        
         left_val = calculator(root.children[0], x)
         right_val = calculator(root.children[1], x)
 
@@ -114,25 +110,32 @@ def calculator(root, x):
             power_flag = True
             right_val = 1
 
-        overflow_flag = False
-        try:
-            x = left_val ** right_val
-        except OverflowError as e:
-            overflow_flag = True
+        # overflow_flag = False
+        # try:
+        #     if(root.operator=="**"): x = left_val ** right_val
+        #     if(root.operator=="*"): x = left_val * right_val
+        #     if(root.operator=="/"): x = left_val / right_val
+        # except OverflowError as e:
+        #     overflow_flag = True
 
-        return(
-        ((root.operator == '+') and (left_val + right_val)) or
-        ((root.operator == '-') and (left_val - right_val)) or
-        ((root.operator == '*') and (left_val * right_val)) or
-        ((root.operator == '/') and (not divide_flag) and (left_val / right_val)) or
-        ((root.operator == '**') and (not power_flag) and (not overflow_flag) and (left_val ** right_val)))
-                
+        try:
+            return(
+            ((root.operator == '+') and (left_val + right_val)) or
+            ((root.operator == '-') and (left_val - right_val)) or
+            ((root.operator == '*') and (left_val * right_val)) or
+            ((root.operator == '/') and (not divide_flag) and (left_val / right_val)) or
+            ((root.operator == '**') and (not power_flag) and (left_val ** right_val)))
+        except OverflowError as e:
+            return 100000
         
 def _mse(tree, list_x, list_y):
     trees_y = []
     for single_x in list_x:
         t_y = calculator(tree.root, single_x)
-        if(t_y>100000 or t_y<100000 or math.isinf(t_y) or math.isnan(t_y)):
+        try:
+            if(math.isinf(t_y) or math.isnan(t_y) or t_y>100000 or t_y<-100000):
+                t_y = 100000
+        except:
             t_y = 100000
         trees_y.append(t_y)
     mse = mean_squared_error(list_y, trees_y)

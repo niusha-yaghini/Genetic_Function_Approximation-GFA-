@@ -11,43 +11,36 @@ def change_node(child_root1, change_node1, child_root2, change_node2):
     queue1 = []
     queue1.append(child_root1)
     
-    while change_node1!=None:
+    cn1 = copy.deepcopy(change_node1)
+    
+    flag1 = True
+    while flag1:
         node = queue1.pop()
         if(node!=change_node1):
-            print("node.depth = ", node.depth)
-            print("node.operator = ", node.operator)
-            print("node.children = ", node.children)
-            print("node.is_leaf = " , node.is_leaf)
-
-            print("change_node1.depth = ", change_node1.depth)
-            print("change_node1.operator = ", change_node1.operator)
-            print("change_node1.children = ", change_node1.children)
-            print("change_node1.is_leaf = ", change_node1.is_leaf)
-
-            # print(change_node1.operator)
-            # print(node.operator)
-            # print(type(node))
-            # print(type(change_node1))
-
             for i in range(len(node.children)):
                 queue1.append(node.children[i])
         else:
-            node = copy.deepcopy(change_node2)
-            queue1.append(node)
-            change_node1 = None
+            node.depth = change_node2.depth
+            node.operator = change_node2.operator
+            node.children = copy.deepcopy(change_node2.children)
+            node.is_leaf = change_node2.is_leaf
+            flag1 = False
             
     queue2 = []
     queue2.append(child_root2)
             
-    while change_node2!=None:
+    flag2 = True
+    while flag2:
         node = queue2.pop()
         if(node!=change_node2):
             for j in range(len(node.children)):
                 queue2.append(node.children[j])
         else:
-            node = copy.deepcopy(change_node1)
-            queue2.append(node)
-            change_node2 = None
+            node.depth = cn1.depth
+            node.operator = cn1.operator
+            node.children = copy.deepcopy(cn1.children)
+            node.is_leaf = cn1.is_leaf
+            flag2 = False
             
         
 def make_list_node(root, nodes):
@@ -62,32 +55,33 @@ def make_list_node(root, nodes):
 def cross_over(parent1, parent2, pc):
     x = rnd.random()
     if(x<=pc):
+
+        # making the child nodes for changing nodes        
+        child1 = copy.deepcopy(parent1)
+        child2 = copy.deepcopy(parent2)        
+        
         # making a list of all nodes
         nodes1 = []
-        make_list_node(parent1.root, nodes1)
+        make_list_node(child1.root, nodes1)
         nodes2 = []
-        make_list_node(parent2.root, nodes2)
+        make_list_node(child2.root, nodes2)
         
         # choosing a node to change
         change_node1 = rnd.choice(nodes1)
         change_node2 = rnd.choice(nodes2)
-
+        
         print("parent1.in_order = ", parent1.in_order)
         print("parent2.in_order = ", parent2.in_order)
 
         print("change_node1.operator = ", change_node1.operator)
-        print("change_node1.operator = ", change_node2.operator)
+        print("change_node2.operator = ", change_node2.operator)
 
-
-        child1 = copy.deepcopy(parent1)
-        child2 = copy.deepcopy(parent2)        
-
-        # making the child nodes with changing the nodes        
         change_node(child1.root, change_node1, child2.root, change_node2)
-        
+
+        child1.printTree()
+        child2.printTree()
         print("child1.in_order = ", child1.in_order)
         print("child2.in_order = ", child2.in_order)
-
         
         return child1, child2
 
