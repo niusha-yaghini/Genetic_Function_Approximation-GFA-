@@ -143,18 +143,18 @@ if __name__ == "__main__":
     k = 3 # k tournoment parameter
     pc = 0.5 # the probblity of cross-over
 
-    amount_of_generations = 10 
+    amount_of_generations = 20
 
     
     # using domain
-    f = open('in_out3.txt', 'r')
+    f = open('in_out6.txt', 'r')
     given_function = f.readline().split(':')[1]
     X = []
     Y = []
     for i in range(domain):
         a = f.readline().split(',')
         X.append(int(a[0]))
-        Y.append(int(a[1]))
+        Y.append(float(a[1]))
         
         
     # population number zero
@@ -191,9 +191,9 @@ if __name__ == "__main__":
     best_of_each,  = plt.plot(x_generation_number, y_best_mse_of_each, label='best of this generation',  linewidth=3)
     best_of_all, = plt.plot(x_generation_number, y_best_of_all, label='best of all generations since now')
 
-    ax.set_title(f"function = {given_function}, population = {amount_of_trees}")
+    ax.set_title(f"function: {given_function} population: {amount_of_trees}, amount_of_generations: {amount_of_generations} , my genetic believes: {final_best_tree.in_order}")
     ax.legend(handles=[best_of_each, best_of_all])
-    name = "result_8_" + str(amount_of_trees) + '.png'
+    name = "result_12_" + str(amount_of_trees) + '.png'
 
     print("the function that my genetic believes: ", final_best_tree.in_order)
 
@@ -203,10 +203,10 @@ if __name__ == "__main__":
     print()
     
     fig, ax = plt.subplots()
-    average_of_each, = plt.plot(x_generation_number, y_average_of_each, label='average of this generation')
-    ax.set_title("function approximation with genetic")
-    ax.legend(handles=[best_of_each, best_of_all])
-    name = "average_" + str(1) + '.png'
+    average_of_each, = plt.plot(x_generation_number, y_average_of_each, label='average of each generation')
+    ax.set_title(f"function = {given_function}, population = {amount_of_trees}")
+    ax.legend(handles=[average_of_each])
+    name = "average_12_" + str(amount_of_trees) + '.png'
 
     plt.savefig(name)
     plt.show()

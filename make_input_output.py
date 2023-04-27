@@ -21,15 +21,28 @@ def making_y_points3(x):
     y = [(math.sin(i)) for i in x]
     return y
 
+def making_y_points4(x):
+    y = [(math.sin(i)+math.cos(2*i)) for i in x]
+    return y
+
+def making_y_points5(x):
+    y = [(4*(i**2) + (5*i) + 3) for i in x]
+    return y
+
+def making_y_points6(x):
+    y = [((i**3) + 7*(i**2) + 7*(i)) for i in x]
+    return y
+
+
 if __name__ == "__main__":
     
-    f = open('in_out3.txt', 'w')
+    f = open('in_out6.txt', 'w')
 
-    f.write("our function is: sin(x) \n")
+    f.write("our function is: (x^3) + 7*(x^2) + 7*x \n")
 
     domain = 20
     x = making_x_points(domain)
-    y = making_y_points3(x)
+    y = making_y_points6(x)
     
     for i in range(domain):
         f.write(f"{x[i]}, {y[i]}\n")
