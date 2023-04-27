@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # making the x points
 def making_x_points(domain):
     x = []
@@ -25,10 +24,6 @@ if __name__ == "__main__":
     y = making_y_points(x)
     
     for i in range(domain):
-        # f.write(f"point number {i} is: ({x[i]}, {y[i]})\n")
         f.write(f"{x[i]}, {y[i]}\n")
         
-        
-    f.close()
-        
-    
+    f.close() 

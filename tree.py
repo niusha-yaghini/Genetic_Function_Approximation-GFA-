@@ -2,7 +2,6 @@ import random
 from sklearn.metrics import mean_squared_error
 import math
 
-
 # choosing the operator
 def my_operator():
     op = ['+', '-', '*', '/', '**']
@@ -70,6 +69,7 @@ class Tree:
             else:
                 return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
 
+
 # making each of our trees
 def tree_making(max_depth):  
     t = Tree(max_depth)
@@ -86,7 +86,6 @@ def all_trees(amount, max_depth):
         tree = tree_making(max_depth)
         trees.append(tree)
     return trees
-
         
 def calculator(root, x):
     if(root.is_leaf):
@@ -109,14 +108,6 @@ def calculator(root, x):
         if(left_val==0 and right_val<0):
             power_flag = True
             right_val = 1
-
-        # overflow_flag = False
-        # try:
-        #     if(root.operator=="**"): x = left_val ** right_val
-        #     if(root.operator=="*"): x = left_val * right_val
-        #     if(root.operator=="/"): x = left_val / right_val
-        # except OverflowError as e:
-        #     overflow_flag = True
 
         try:
             return(
@@ -141,7 +132,6 @@ def _mse(tree, list_x, list_y):
     mse = mean_squared_error(list_y, trees_y)
     return mse
 
-        
 def calculating_mse(tree_list, X, Y):
     i = 1
     mse_sum = 0
@@ -154,4 +144,3 @@ def calculating_mse(tree_list, X, Y):
         i += 1
 
     return mse_sum/i, best_mse
-    

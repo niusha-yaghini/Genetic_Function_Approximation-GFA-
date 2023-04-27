@@ -5,7 +5,6 @@ import tree
 import print_tree_mse
 import copy
 import matplotlib.pyplot as plt
-
     
 def change_node(child_root1, change_node1, child_root2, change_node2):
     
@@ -41,8 +40,7 @@ def change_node(child_root1, change_node1, child_root2, change_node2):
             node.operator = cn1.operator
             node.children = copy.deepcopy(cn1.children)
             node.is_leaf = cn1.is_leaf
-            flag2 = False
-            
+            flag2 = False          
         
 def make_list_node(root, nodes):
     nodes.append(root)
@@ -52,7 +50,6 @@ def make_list_node(root, nodes):
                 
     return nodes
 
-    
 def cross_over(parent1, parent2, pc):
     x = rnd.random()
     if(x<=pc):
@@ -88,8 +85,7 @@ def cross_over(parent1, parent2, pc):
 
     else:
         return parent1, parent2
-            
-        
+                   
 def tournament(p_trees, k):
     couple_parent = []
     for j in range(2):
@@ -101,8 +97,7 @@ def tournament(p_trees, k):
                 best_mse = t.mse
                 best_tree = t
         couple_parent.append(best_tree)
-    return couple_parent[0], couple_parent[1]
-        
+    return couple_parent[0], couple_parent[1]       
           
 def making_children(parent_trees, k, pc):
     
@@ -119,7 +114,6 @@ def making_children(parent_trees, k, pc):
     
     return children
       
-
 
 if __name__ == "__main__":
     
@@ -179,4 +173,3 @@ if __name__ == "__main__":
     # we have not done mutation yet
 
     print()
-    
