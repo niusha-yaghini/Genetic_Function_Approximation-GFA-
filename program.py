@@ -130,7 +130,7 @@ if __name__ == "__main__":
         
     
     # making trees
-    amount_of_trees = 20
+    amount_of_trees = 40
     max_depth = 4
     
     # population number zero
@@ -148,7 +148,9 @@ if __name__ == "__main__":
     # children_average_mse, children_best_mse = tree.calculating_mse(list_of_children, X, Y)
 
     x_axis = []
-    y_axis = []
+    y_average_of_each = []
+    y_best_of_each = []
+    y_best_of_all = []
     
     amount_of_generations = 10
     
@@ -159,16 +161,34 @@ if __name__ == "__main__":
         list_of_parents = list_of_children
         
         x_axis.append(i)
-        y_axis.append(children_average_mse)
+        y_best_of_each.append(children_best_mse)
+        y_best_of_all.append(min(y_best_of_each))
+        y_average_of_each.append(children_average_mse)
 
 
-    plt.bar(x_axis, y_axis)
-    plt.title('function approximation with genetic')
-    plt.xlabel('number of generations')
-    plt.ylabel('average mse')
-    plt.show()    
+    fig, ax = plt.subplots()
+    best_of_each,  = plt.plot(x_axis, y_best_of_each, label='best of this generation',  linewidth=3)
+    best_of_all, = plt.plot(x_axis, y_best_of_all, label='best of all generations since now')
+
+    ax.set_title("function approximation with genetic")
+    ax.legend(handles=[best_of_each, best_of_all])
+    name = "result_" + str(4) + '.png'
+
+    plt.savefig(name)
+    plt.show()
     
+    print()
     
+    fig, ax = plt.subplots()
+    average_of_each, = plt.plot(x_axis, y_average_of_each, label='average of this generation')
+    ax.set_title("function approximation with genetic")
+    ax.legend(handles=[best_of_each, best_of_all])
+    name = "average_" + str(1) + '.png'
+
+    plt.savefig(name)
+    plt.show()
+
+
     # for now the new generation is the children
     # we have not done mutation yet
 

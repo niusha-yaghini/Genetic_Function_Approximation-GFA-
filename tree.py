@@ -4,7 +4,7 @@ import math
 
 # choosing the operator
 def my_operator():
-    op = ['+', '-', '*', '/', '**']
+    op = ['+', '-', '*', '/']
     return(random.choice(op))
 
 def my_leaf():
@@ -122,7 +122,9 @@ def calculator(root, x):
 def _mse(tree, list_x, list_y):
     trees_y = []
     for single_x in list_x:
+        # print("before calculator")
         t_y = calculator(tree.root, single_x)
+        # print("after calculator")
         try:
             if(math.isinf(t_y) or math.isnan(t_y) or t_y>100000 or t_y<-100000):
                 t_y = 100000
