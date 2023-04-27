@@ -188,11 +188,29 @@ def calculator(root, x, flag):
         elif (root.operator == '-'):
             return left_val - right_val
         elif (root.operator == '*'):
-            left_val * right_val
+            return left_val * right_val
         elif (root.operator == '/'):
-            left_val / right_val
+            if(right_val==0):
+                flag = True
+                return 1
+            else: return left_val / right_val
         elif (root.operator == '**'):
-            return left_val ** right_val
+            if(left_val==0 and right_val<0):
+                flag = True
+                return 1
+            else: 
+                # return left_val ** right_val
+                if(right_val==0):
+                    return 1
+                x = 1
+                i = 0
+                while(not flag and i<right_val):
+                    x = x*left_val
+                    i+=1
+                    if(x>100000 or x<-100000):
+                        flag = True
+                        return 1
+                return x
         
         
 def mean_abs_error(true_y, my_y):
@@ -209,11 +227,14 @@ def _mse(tree, list_x, list_y):
     for single_x in list_x:
         flag = False
         t_y = calculator(tree.root, single_x, flag)
-        try:
-            if(flag==True or math.isnan(t_y) or math.isinf(t_y) or t_y>100000 or t_y<-100000):
-                t_y = 100000
-        except:
+        if(flag==True or t_y>100000 or t_y<-100000):
             t_y = 100000
+
+        # try:
+        # if(flag==True or math.isnan(t_y) or math.isinf(t_y) or t_y>100000 or t_y<-100000):
+        #     t_y = 100000
+        # except:
+        #     t_y = 100000
         trees_y.append(t_y)
     # mse = mean_squared_error(list_y, trees_y)
     mse = mean_abs_error(list_y, trees_y)

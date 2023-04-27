@@ -147,7 +147,7 @@ if __name__ == "__main__":
 
     
     # using domain
-    f = open('in_out2.txt', 'r')
+    f = open('in_out3.txt', 'r')
     given_function = f.readline().split(':')[1]
     X = []
     Y = []
@@ -156,10 +156,10 @@ if __name__ == "__main__":
         X.append(int(a[0]))
         Y.append(int(a[1]))
         
-    
+        
     # population number zero
     list_of_parents = tree.all_trees(amount_of_trees, max_depth)
-    parents_average_mse, parents_best_mse = tree.calculating_mse(list_of_parents, X, Y)
+    parents_average_mse, parents_best_mse, best_tree = tree.calculating_mse(list_of_parents, X, Y)
     
     # making lists for showing 
     x_generation_number = []
@@ -186,8 +186,6 @@ if __name__ == "__main__":
         if i.mse<mse:
             final_best_tree = i
             mse = i.mse
-        
-
 
     fig, ax = plt.subplots()
     best_of_each,  = plt.plot(x_generation_number, y_best_mse_of_each, label='best of this generation',  linewidth=3)
@@ -195,7 +193,7 @@ if __name__ == "__main__":
 
     ax.set_title(f"function = {given_function}, population = {amount_of_trees}")
     ax.legend(handles=[best_of_each, best_of_all])
-    name = "result_7_" + str(amount_of_trees) + '.png'
+    name = "result_8_" + str(amount_of_trees) + '.png'
 
     print("the function that my genetic believes: ", final_best_tree.in_order)
 
@@ -204,14 +202,14 @@ if __name__ == "__main__":
     
     print()
     
-    # fig, ax = plt.subplots()
-    # average_of_each, = plt.plot(x_generation_number, y_average_of_each, label='average of this generation')
-    # ax.set_title("function approximation with genetic")
-    # ax.legend(handles=[best_of_each, best_of_all])
-    # name = "average_" + str(1) + '.png'
+    fig, ax = plt.subplots()
+    average_of_each, = plt.plot(x_generation_number, y_average_of_each, label='average of this generation')
+    ax.set_title("function approximation with genetic")
+    ax.legend(handles=[best_of_each, best_of_all])
+    name = "average_" + str(1) + '.png'
 
-    # plt.savefig(name)
-    # plt.show()
+    plt.savefig(name)
+    plt.show()
 
 
     # we have not use sin and cos yet
