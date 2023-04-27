@@ -148,7 +148,7 @@ if __name__ == "__main__":
     
     # using domain
     f = open('in_out.txt', 'r')
-    f.readline()
+    given_function = f.readline().split(':')[1]
     X = []
     Y = []
     for i in range(domain):
@@ -183,7 +183,7 @@ if __name__ == "__main__":
     best_of_each,  = plt.plot(x_generation_number, y_best_of_each, label='best of this generation',  linewidth=3)
     best_of_all, = plt.plot(x_generation_number, y_best_of_all, label='best of all generations since now')
 
-    ax.set_title("function approximation with genetic")
+    ax.set_title(f"function = {given_function}, population0 = {amount_of_trees}")
     ax.legend(handles=[best_of_each, best_of_all])
     name = "result_number_6_" + str(amount_of_trees) + '.png'
 
