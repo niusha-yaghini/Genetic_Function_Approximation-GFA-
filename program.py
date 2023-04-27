@@ -147,7 +147,7 @@ if __name__ == "__main__":
 
     
     # using domain
-    f = open('in_out.txt', 'r')
+    f = open('in_out2.txt', 'r')
     given_function = f.readline().split(':')[1]
     X = []
     Y = []
@@ -164,28 +164,40 @@ if __name__ == "__main__":
     # making lists for showing 
     x_generation_number = []
     y_average_of_each = []
-    y_best_of_each = []
+    y_best_mse_of_each = []
     y_best_of_all = []
+    y_best_tree = []
     
     for i in range(amount_of_generations):
     
         list_of_children = making_children(list_of_parents, k, pc)
-        children_average_mse, children_best_mse = tree.calculating_mse(list_of_children, X, Y)
+        average_mse, best_mse, best_tree = tree.calculating_mse(list_of_children, X, Y)
         list_of_parents = list_of_children
         
         x_generation_number.append(i)
-        y_best_of_each.append(children_best_mse)
-        y_best_of_all.append(min(y_best_of_each))
-        y_average_of_each.append(children_average_mse)
+        y_best_tree.append(best_tree)
+        y_best_mse_of_each.append(best_mse)
+        y_best_of_all.append(min(y_best_mse_of_each))
+        y_average_of_each.append(average_mse)
+
+    final_best_tree = None
+    mse = float('inf')
+    for i in y_best_tree:
+        if i.mse<mse:
+            final_best_tree = i
+            mse = i.mse
+        
 
 
     fig, ax = plt.subplots()
-    best_of_each,  = plt.plot(x_generation_number, y_best_of_each, label='best of this generation',  linewidth=3)
+    best_of_each,  = plt.plot(x_generation_number, y_best_mse_of_each, label='best of this generation',  linewidth=3)
     best_of_all, = plt.plot(x_generation_number, y_best_of_all, label='best of all generations since now')
 
-    ax.set_title(f"function = {given_function}, population0 = {amount_of_trees}")
+    ax.set_title(f"function = {given_function}, population = {amount_of_trees}")
     ax.legend(handles=[best_of_each, best_of_all])
-    name = "result_number_6_" + str(amount_of_trees) + '.png'
+    name = "result_7_" + str(amount_of_trees) + '.png'
+
+    print("the function that my genetic believes: ", final_best_tree.in_order)
 
     plt.savefig(name)
     plt.show()
