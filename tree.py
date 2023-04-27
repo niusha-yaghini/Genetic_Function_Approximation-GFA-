@@ -103,62 +103,6 @@ def all_trees(amount, max_depth):
         trees.append(tree)
     return trees
         
-# def calculator(root, x, flag):
-#     # doing the calculating for each function that we have made with given input
-#     if(flag):
-#         return
-    
-#     if(root.is_leaf):
-#         if(root.operator == 'x'): 
-#             return x
-#         else: 
-#             return root.operator
-#     else:
-        
-#         left_val = 1
-#         right_val = 1
-        
-#         if(len(root.children)==1):
-#             val = calculator(root.children[0], x, flag)
-#         else:       
-#             left_val = calculator(root.children[0], x, flag)
-#             right_val = calculator(root.children[1], x, flag)
-
-#         # checking for dividing error
-#         if(root.operator == '/' and right_val == 0):
-#             flag = True
-#             return
-
-#         # checking for power error
-#         if(left_val == 0 and right_val < 0):
-#             flag = True
-#             return
-        
-#         # checking for making large numbers error
-#         if(root.operator == '**'):
-#             if(left_val>100000 or left_val<-100000 or right_val>100 or right_val<-100):
-#                 flag = True
-#                 return
-                
-#         try:
-#             if(root.operator == '**'):
-#                 a = left_val ** right_val
-#         except:
-#             flag = True
-#             return
-            
-#         try:
-#             return(
-#             ((root.operator == 'sin') and (math.sin(val))) or
-#             ((root.operator == 'cos') and (math.cos(val))) or
-#             ((root.operator == '+') and (left_val + right_val)) or
-#             ((root.operator == '-') and (left_val - right_val)) or
-#             ((root.operator == '*') and (left_val * right_val)) or
-#             ((root.operator == '/') and (left_val / right_val)) or
-#             ((root.operator == '**') and (left_val ** right_val)))
-#         except:
-#             return 100000
-
 def calculator(root, x, flag):
     # doing the calculating for each function that we have made with given input
     
@@ -211,7 +155,6 @@ def calculator(root, x, flag):
                         flag = True
                         return 1
                 return x
-        
         
 def mean_abs_error(true_y, my_y):
     amount = len(my_y)

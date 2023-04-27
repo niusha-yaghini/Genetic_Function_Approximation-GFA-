@@ -6,7 +6,8 @@ import print_tree_mae
 import copy
 import matplotlib.pyplot as plt
     
-def change_node(child_root1, change_node1, child_root2, change_node2):
+    
+def replace_nodes(child_root1, choosed_node1, child_root2, choosed_node2):
     # change the specific node1 in tree1 with the specific node2 in tree2 with each other
     #       and making new trees as children
     
@@ -14,20 +15,20 @@ def change_node(child_root1, change_node1, child_root2, change_node2):
     queue1.append(child_root1)
     
     # making a cope of node1, because we will lose it after we change it with node2
-    cn1 = copy.deepcopy(change_node1)
+    cn1 = copy.deepcopy(choosed_node1)
     
     # searching in tree1 untill we find our specific node, and changing it with node2
     flag1 = True
     while flag1:
         node = queue1.pop()
-        if(node!=change_node1):
+        if(node!=choosed_node1):
             for i in range(len(node.children)):
                 queue1.append(node.children[i])
         else:
-            node.depth = change_node2.depth
-            node.operator = change_node2.operator
-            node.children = copy.deepcopy(change_node2.children)
-            node.is_leaf = change_node2.is_leaf
+            node.depth = choosed_node2.depth
+            node.operator = choosed_node2.operator
+            node.children = copy.deepcopy(choosed_node2.children)
+            node.is_leaf = choosed_node2.is_leaf
             flag1 = False
             
     queue2 = []
@@ -37,7 +38,7 @@ def change_node(child_root1, change_node1, child_root2, change_node2):
     flag2 = True
     while flag2:
         node = queue2.pop()
-        if(node!=change_node2):
+        if(node!=choosed_node2):
             for j in range(len(node.children)):
                 queue2.append(node.children[j])
         else:
@@ -74,16 +75,16 @@ def cross_over(parent1, parent2, pc):
         make_list_node(child2.root, nodes2)
         
         # choosing a node to change
-        change_node1 = rnd.choice(nodes1)
-        change_node2 = rnd.choice(nodes2)
+        choosed_node1 = rnd.choice(nodes1)
+        choosed_node2 = rnd.choice(nodes2)
         
         # print("parent1.in_order = ", parent1.in_order)
         # print("parent2.in_order = ", parent2.in_order)
 
-        # print("change_node1.operator (before change) = ", change_node1.operator)
-        # print("change_node2.operator (before change) = ", change_node2.operator)
+        # print("choosed_node1.operator (before change) = ", choosed_node1.operator)
+        # print("choosed_node2.operator (before change) = ", choosed_node2.operator)
 
-        change_node(child1.root, change_node1, child2.root, change_node2)
+        replace_nodes(child1.root, choosed_node1, child2.root, choosed_node2)
 
         child1.print_tree()
         child2.print_tree()
@@ -91,8 +92,8 @@ def cross_over(parent1, parent2, pc):
         # print("parent1.in_order = ", parent1.in_order)
         # print("parent2.in_order = ", parent2.in_order)
 
-        # print("change_node1.operator (after change) = ", change_node1.operator)
-        # print("change_node2.operator (after change) = ", change_node2.operator)
+        # print("choosed_node1.operator (after change) = ", choosed_node1.operator)
+        # print("choosed_node2.operator (after change) = ", choosed_node2.operator)
         
         return child1, child2
     
@@ -114,10 +115,42 @@ def tournament(p_trees, k):
                 best_tree = t
         couple_parent.append(best_tree)
     return couple_parent[0], couple_parent[1]       
+        
+def change_node(root, choosed_node):
+    queue = []
+    queue.append(root)
+        
+    # searching in tree1 untill we find our specific node, and changing it with node2
+    flag = True
+    while flag:
+        node = queue.pop()
+        if(node!=choosed_node):
+            for i in range(len(node.children)):
+                queue.append(node.children[i])
+        else:
+            d = node.depth
+            t = tree.Tree(d)
+            t._fit()
+            node.depth = t.root.depth
+            node.operator = t.root.operator
+            node.children = t.root.children
+            node.is_leaf = t.root.is_leaf
+            flag = False
           
 def mutation(children, pm):
     for child in children:
-        x = 
+        x = rnd.random()
+        if(x<=pm):
+
+            nodes = []
+            make_list_node(child.root, nodes)
+            
+            # choosing a node to change
+            choosed_node = rnd.choice(nodes)
+            
+            change_node(child.root, choosed_node)
+            
+            child.print_tree()
           
 def making_children(parent_trees, k, pc, pm):
     # we want to make children on base of a list of trees (parent_trees)
@@ -200,7 +233,7 @@ if __name__ == "__main__":
 
     ax.set_title(f"function: {given_function} population: {amount_of_trees}, amount_of_generations: {amount_of_generations} , my genetic believes: {final_best_tree.in_order}")
     ax.legend(handles=[best_of_each, best_of_all])
-    name = "result_12_" + str(amount_of_trees) + '.png'
+    name = "result_1_" + str(amount_of_trees) + '.png'
 
     print("the function that my genetic believes: ", final_best_tree.in_order)
 
@@ -213,7 +246,7 @@ if __name__ == "__main__":
     average_of_each, = plt.plot(x_generation_number, y_average_of_each, label='average of each generation')
     ax.set_title(f"function = {given_function}, population = {amount_of_trees}")
     ax.legend(handles=[average_of_each])
-    name = "average_12_" + str(amount_of_trees) + '.png'
+    name = "average_1_" + str(amount_of_trees) + '.png'
 
     plt.savefig(name)
     plt.show()
