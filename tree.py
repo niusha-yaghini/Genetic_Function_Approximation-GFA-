@@ -20,34 +20,25 @@ def single_op(op):
 class Node:
     # my node class 
     
-    def __init__(self, _depth, _operator, _children = [], _is_leaf = False, _value = None):
+    def __init__(self, _depth, _operator, _children = [], _is_leaf = False):
         self.operator = _operator
         self.depth = _depth
         self.children = _children
         self.is_leaf = _is_leaf
-        # value is the answer of a specific x (since this node)
-        self.value = _value
-        
-        
-    
-
 
 class Tree:
     # my tree class
 
-    def __init__(self, _max_depth=None):
+    def __init__(self, _max_depth = None):
         self.max_depth = _max_depth
         self.root = None
         self.in_order = None
-        self.mse = None
-        self.node_amount = 0
-        
+        self.mse = None        
         
     def _fit(self):
-        self.root = self._grow_tree(self.max_depth, self.node_amount)
+        self.root = self._grow_tree(self.max_depth)
         
-        
-    def _grow_tree(self, max_depth, node_amount, CS = 2):
+    def _grow_tree(self, max_depth, CS = 2):
         
         depth = random.randint(0, max_depth)
           
@@ -60,19 +51,16 @@ class Tree:
             x = my_leaf()
         else:
             for i in range(CS):
-                children.append(self._grow_tree(depth-1, node_amount))
+                children.append(self._grow_tree(depth-1))
 
         n = Node(depth, x, children)
         if(depth==0): n.is_leaf = True
-        node_amount += 1
-        return n
-            
+        return n          
 
     def printTree (self):
         self.in_order = self.to_math_string(self.root)
         print(self.in_order)        
-
-    
+   
     def to_math_string(self, node):
         if node.is_leaf:
             return f"{node.operator}"
@@ -81,16 +69,17 @@ class Tree:
                 return f"{node.operator}({self.to_math_string(node.children[0])})"
             else:
                 return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
-            
-            
+        
+
 # making each of our trees
 def tree_making(max_depth):  
     t = Tree(max_depth)
     t._fit()
     t.printTree()
     print()
-    return t
-    
+    return t     
+     
+        
 # making a list of all random trees
 def all_trees(amount, max_depth):
     trees = []
@@ -100,31 +89,8 @@ def all_trees(amount, max_depth):
         trees.append(tree)
     return trees
 
-def calculating_mse(tree_list, X, Y):
-    # trees_mse = []
-    for t in tree_list:
-        # t_mse = _mse(t, X, Y)
-        t.mse = _mse(t, X, Y)
-        print(f"tree = {t.in_order} and its mse is = {t.mse}", )
-        # trees_mse.append(t)
-    # return trees_mse
-            
         
-def _mse(tree, list_x, list_y):
-    trees_y = []
-    for single_x in list_x:
-        zero_flag = False
-        t_y = 0
-        t_y = calculator(tree.root, single_x, zero_flag)
-        if(zero_flag or abs(t_y)>100000 or math.isinf(t_y) or math.isnan(t_y)):
-            t_y = 100000
-        trees_y.append(t_y)
-    mse = mean_squared_error(list_y, trees_y)
-
-    return mse
-
-    
-def calculator(root, x, _flag):
+def calculator(root, x):
     if(root.is_leaf):
         if(root.operator == 'x'): 
             return x
@@ -132,16 +98,51 @@ def calculator(root, x, _flag):
             return root.operator
     else:
         # we have not consider sin and cos
-        left_val = calculator(root.children[0], x, _flag)
-        right_val = calculator(root.children[1], x, _flag)
+        # left_val = calculator(root.children[0], x, _flag)
+        # right_val = calculator(root.children[1], x, _flag)
 
+        left_val = calculator(root.children[0], x)
+        right_val = calculator(root.children[1], x)
+
+        divide_flag = False
         if(root.operator == '/' and right_val == 0):
-            _flag = True
+            divide_flag = True
             right_val = 1
+
+        power_flag = False
+        if(left_val==0 and right_val<0):
+            power_flag = True
+            right_val = 1
+
+        overflow_flag = False
+        try:
+            x = left_val ** right_val
+        except OverflowError as e:
+            overflow_flag = True
 
         return(
         ((root.operator == '+') and (left_val + right_val)) or
         ((root.operator == '-') and (left_val - right_val)) or
         ((root.operator == '*') and (left_val * right_val)) or
-        ((root.operator == '/') and (left_val / right_val)) or
-        ((root.operator == '**') and (left_val ** right_val)))
+        ((root.operator == '/') and (not divide_flag) and (left_val / right_val)) or
+        ((root.operator == '**') and (not power_flag) and (not overflow_flag) and (left_val ** right_val)))
+                
+        
+def _mse(tree, list_x, list_y):
+    trees_y = []
+    for single_x in list_x:
+        t_y = calculator(tree.root, single_x)
+        if(t_y>100000 or t_y<100000 or math.isinf(t_y) or math.isnan(t_y)):
+            t_y = 100000
+        trees_y.append(t_y)
+    mse = mean_squared_error(list_y, trees_y)
+    return mse
+
+        
+def calculating_mse(tree_list, X, Y):
+    i = 1
+    for t in tree_list:
+        t.mse = _mse(t, X, Y)
+        print(f"tree number {i} = {t.in_order} and its mse is = {t.mse}")
+        i += 1
+    
