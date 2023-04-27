@@ -159,13 +159,13 @@ if __name__ == "__main__":
         list_of_parents = list_of_children
         
         x_axis.append(i)
-        y_axis.append(children_best_mse)
+        y_axis.append(children_average_mse)
 
 
     plt.bar(x_axis, y_axis)
     plt.title('function approximation with genetic')
     plt.xlabel('number of generations')
-    plt.ylabel('best mse')
+    plt.ylabel('average mse')
     plt.show()    
     
     
