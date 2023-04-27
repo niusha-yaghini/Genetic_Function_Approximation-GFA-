@@ -4,11 +4,13 @@ import math
 
 # choosing the operator
 def my_operator():
-    op = ['+', '-', '*', '/']
+    # op = ['+', '-', '*', '/', '**']
+    op = ['**']
     return(random.choice(op))
 
 def my_leaf():
     leaf = [random.randint(1, 9), 'x']
+
     return(random.choice(leaf))
 
 def single_op(op):
@@ -109,15 +111,15 @@ def calculator(root, x):
             power_flag = True
             right_val = 1
 
-        try:
-            return(
-            ((root.operator == '+') and (left_val + right_val)) or
-            ((root.operator == '-') and (left_val - right_val)) or
-            ((root.operator == '*') and (left_val * right_val)) or
-            ((root.operator == '/') and (not divide_flag) and (left_val / right_val)) or
-            ((root.operator == '**') and (not power_flag) and (left_val ** right_val)))
-        except OverflowError as e:
-            return 100000
+        # try:
+        return(
+        ((root.operator == '+') and (left_val + right_val)) or
+        ((root.operator == '-') and (left_val - right_val)) or
+        ((root.operator == '*') and (left_val * right_val)) or
+        ((root.operator == '/') and (not divide_flag) and (left_val / right_val)) or
+        ((root.operator == '**') and (not power_flag) and (left_val ** right_val)))
+        # except OverflowError as e:
+        #     return 100000
         
 def _mse(tree, list_x, list_y):
     trees_y = []
