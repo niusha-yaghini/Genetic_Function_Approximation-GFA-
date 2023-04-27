@@ -2,7 +2,7 @@ import numpy as np
 import random as rnd
 import math
 import tree
-import print_tree_mse
+import print_tree_mae
 import copy
 import matplotlib.pyplot as plt
     
@@ -101,21 +101,25 @@ def cross_over(parent1, parent2, pc):
                    
 def tournament(p_trees, k):
     # using the tournament preceture for selecting a couple tree
-    # in this method we choose 3 tree randomly 2 times (2 times becuase we want a couple), and select the best-mse tree
+    # in this method we choose 3 tree randomly 2 times (2 times becuase we want a couple), and select the best-mae tree
     
     couple_parent = []
     for j in range(2):
-        best_mse = float('inf')
+        best_mae = float('inf')
         best_tree = None
         for z in range(k):
             t = rnd.choice(p_trees)  
-            if(t.mse<best_mse):
-                best_mse = t.mse
+            if(t.mae<best_mae):
+                best_mae = t.mae
                 best_tree = t
         couple_parent.append(best_tree)
     return couple_parent[0], couple_parent[1]       
           
-def making_children(parent_trees, k, pc):
+def mutation(children, pm):
+    for child in children:
+        x = 
+          
+def making_children(parent_trees, k, pc, pm):
     # we want to make children on base of a list of trees (parent_trees)
     
     lenght = len(parent_trees)
@@ -128,6 +132,8 @@ def making_children(parent_trees, k, pc):
         child1, child2 = cross_over(parent1, parent2, pc)
         children.append(child1)
         children.append(child2)
+    
+    children = mutation(children, pm)
     
     return children
       
@@ -142,6 +148,7 @@ if __name__ == "__main__":
 
     k = 3 # k tournoment parameter
     pc = 0.5 # the probblity of cross-over
+    pm = 0.5 # the probblity of mutation
 
     amount_of_generations = 20
 
@@ -159,36 +166,36 @@ if __name__ == "__main__":
         
     # population number zero
     list_of_parents = tree.all_trees(amount_of_trees, max_depth)
-    parents_average_mse, parents_best_mse, best_tree = tree.calculating_mse(list_of_parents, X, Y)
+    parents_average_mae, parents_best_mae, best_tree = tree.calculating_mae(list_of_parents, X, Y)
     
     # making lists for showing 
     x_generation_number = []
     y_average_of_each = []
-    y_best_mse_of_each = []
+    y_best_mae_of_each = []
     y_best_of_all = []
     y_best_tree = []
     
     for i in range(amount_of_generations):
     
-        list_of_children = making_children(list_of_parents, k, pc)
-        average_mse, best_mse, best_tree = tree.calculating_mse(list_of_children, X, Y)
+        list_of_children = making_children(list_of_parents, k, pc, pm)
+        average_mae, best_mae, best_tree = tree.calculating_mae(list_of_children, X, Y)
         list_of_parents = list_of_children
         
         x_generation_number.append(i)
         y_best_tree.append(best_tree)
-        y_best_mse_of_each.append(best_mse)
-        y_best_of_all.append(min(y_best_mse_of_each))
-        y_average_of_each.append(average_mse)
+        y_best_mae_of_each.append(best_mae)
+        y_best_of_all.append(min(y_best_mae_of_each))
+        y_average_of_each.append(average_mae)
 
     final_best_tree = None
-    mse = float('inf')
+    mae = float('inf')
     for i in y_best_tree:
-        if i.mse<mse:
+        if i.mae<mae:
             final_best_tree = i
-            mse = i.mse
+            mae = i.mae
 
     fig, ax = plt.subplots()
-    best_of_each,  = plt.plot(x_generation_number, y_best_mse_of_each, label='best of this generation',  linewidth=3)
+    best_of_each,  = plt.plot(x_generation_number, y_best_mae_of_each, label='best of this generation',  linewidth=3)
     best_of_all, = plt.plot(x_generation_number, y_best_of_all, label='best of all generations since now')
 
     ax.set_title(f"function: {given_function} population: {amount_of_trees}, amount_of_generations: {amount_of_generations} , my genetic believes: {final_best_tree.in_order}")
