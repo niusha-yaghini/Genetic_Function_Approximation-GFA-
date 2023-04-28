@@ -4,8 +4,8 @@ import math
 # making the x points
 def making_x_points(domain):
     x = []
-    for i in range(domain):
-        x.append(i+1)
+    for i in range(domain[0], domain[1]+1):
+        x.append(i)
     return x
 
 # making the y points    
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     f.write("our function is: sin(x)+cos(2*x) \n")
 
-    domain = 20
+    domain = (1, 20) # all int numbers (between 1 to 20), (1 and 20 are included)
     x = making_x_points(domain)
     y = making_y_points4(x)
     

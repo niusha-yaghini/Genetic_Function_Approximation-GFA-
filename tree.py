@@ -1,4 +1,4 @@
-import random
+import random as rnd
 from sklearn.metrics import mean_squared_error
 import math
 
@@ -6,12 +6,20 @@ import math
 # choosing the operator
 def my_operator():
     op = ['+', '-', '*', '/', '**', 'sin', 'cos']
-    return(random.choice(op))
+    return(rnd.choice(op))
 
 # choosing the leaf
-def my_leaf():
-    leaf = [random.randint(1, 9), 'x']
-    return(random.choice(leaf))
+def my_leaf_one_D():
+    num = [rnd.randint(1, 9)]
+    var = ['x']
+    x = rnd.choice(num, var)
+    return(rnd.choice(x))
+
+def my_leaf_two_D():
+    num = [rnd.randint(1, 9)]
+    var = ['x1', 'x2']
+    x = rnd.choice(num, var)
+    return(rnd.choice(x))
 
 # checking type of function (1 child needed or 2 childs needed)
 def single_op(op):
@@ -32,19 +40,20 @@ class Node:
 class Tree:
     # my tree class
 
-    def __init__(self, _max_depth = None):
+    def __init__(self, _max_depth = None, _two_D_flag = None):
         self.max_depth = _max_depth
+        self.two_D_flag = _two_D_flag
         self.root = None
         self.in_order = None
         self.mae = None        
         
     def _fit(self):
-        self.root = self._grow_tree(self.max_depth)
+        self.root = self._grow_tree(self.max_depth, self.two_D_flag)
         
-    def _grow_tree(self, max_depth, CS = 2):
+    def _grow_tree(self, max_depth, two_D_flag, CS = 2):
         
-        # choosing a random depth each time (between 0 to max given depth)
-        depth = random.randint(0, max_depth)
+        # choosing a rnd depth each time (between 0 to max given depth)
+        depth = rnd.randint(0, max_depth)
           
         # choosing the operator for current node
         x = my_operator()
@@ -59,17 +68,20 @@ class Tree:
         
         # building the tree base on current depth and children needed
         if(depth==0):
-            x = my_leaf()
+            if(two_D_flag):
+                x = my_leaf_two_D()
+            else:
+                x = my_leaf_one_D()
         else:
             for i in range(CS):
-                children.append(self._grow_tree(depth-1))
+                children.append(self._grow_tree(depth-1, two_D_flag))
 
         # making the node 
         n = Node(depth, x, children)
         if(depth==0): n.is_leaf = True
         return n          
 
-    def print_tree (self):
+    def print_tree(self):
         # making the inorder show of our tree
         
         self.in_order = self.to_math_string(self.root)
@@ -84,43 +96,53 @@ class Tree:
             else:
                 return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
 
-def tree_making(max_depth):  
+def tree_making(max_depth, two_D_flag):  
     # making each of our trees
 
-    t = Tree(max_depth)
+    t = Tree(max_depth, two_D_flag)
     t._fit()
     t.print_tree()
-    # print()
     return t     
         
-def all_trees(amount, max_depth):
+def random_trees(amount, max_depth, two_D_flag):
     # making a list of all random trees (generation 0)
 
     trees = []
     for i in range(amount):
         # print(f"tree number {i+1} is: ", end='')
-        tree = tree_making(max_depth)
+        tree = tree_making(max_depth, two_D_flag)
         trees.append(tree)
     return trees
         
-def calculator(root, x, flag):
+def calculator(two_D_flag, root, x, flag):
     # doing the calculating for each function that we have made with given input
     
     if(flag):
         return
     
     if(root.is_leaf):
-        if(root.operator == 'x'): 
-            return x
-        else: 
-            return root.operator
+        
+        if(two_D_flag):
+            if(root.operator == 'x1'): 
+                return x[0]
+            elif(root.operator == 'x2'): 
+                return x[1]                
+            else: 
+                return root.operator        
+            
+        else:
+            if(root.operator == 'x'): 
+                return x
+            else: 
+                return root.operator
+    
     else:
         
         if(len(root.children)==1):
             val = calculator(root.children[0], x, flag)
         else:       
-            left_val = calculator(root.children[0], x, flag)
-            right_val = calculator(root.children[1], x, flag)
+            left_val = calculator(two_D_flag, root.children[0], x, flag)
+            right_val = calculator(two_D_flag, root.children[1], x, flag)
 
 
         if (root.operator == 'sin'):
@@ -169,7 +191,7 @@ def _mae(tree, list_x, list_y):
     trees_y = []
     for single_x in list_x:
         flag = False
-        t_y = calculator(tree.root, single_x, flag)
+        t_y = calculator(tree.two_D_flag, tree.root, single_x, flag)
         if(flag==True or t_y>100000 or t_y<-100000):
             t_y = 100000
 
