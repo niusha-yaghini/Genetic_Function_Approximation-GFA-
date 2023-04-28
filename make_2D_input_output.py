@@ -24,14 +24,16 @@ def making_y_points1(x):
 
 
 def my_function(x1, x2):
-    return (2*x1)+(3*x2)
+    # return (2*x1)+(3*x2)
+    # return 3*(x1**2) - math.sin(x2)
+    return math.sin(x1) * (x2**3)
 
 
 if __name__ == "__main__":
     
-    f = open('2D_in_out1.txt', 'w')
+    f = open('2D_in_out3.txt', 'w')
 
-    f.write("our function is: (2*x1)+(3*x2) \n")
+    f.write("our function is: sin(x1)*(x2**3) \n")
 
     x1_domain = (1, 10)
     x2_domain = (1, 10)

@@ -169,26 +169,26 @@ def Genetic_two_D_input(input_file_name):
 
 if __name__ == "__main__":
     
-    photo_number = 1
+    photo_number = 4
     
     # parameters
     amount = 100
 
-    amount_of_trees = 100
-    max_depth = 6
+    amount_of_trees = 200
+    max_depth = 10
 
     k = 3 # k tournoment parameter
     pc = 0.5 # the probblity of cross-over
     pm = 0.5 # the probblity of mutation
 
-    amount_of_generations = 20
+    amount_of_generations = 100
 
     
     # two_D = False
     # input_file_name = open('in_out1.txt', 'r')
     
     two_D = True
-    input_file_name = '2D_in_out1.txt'
+    input_file_name = '2D_in_out3.txt'
 
     if(two_D==False):
         Genetic_one_D_input(input_file_name)

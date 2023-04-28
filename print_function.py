@@ -57,12 +57,16 @@ def print_func_two_D(list_x, actual_y, predicted_tree, actual_f, predicted_f, ph
 
     list_x1, list_x2 = couple_to_list(list_x)
 
-    fig = plt.figure(figsize = (8,8))
+    fig = plt.figure(figsize=(8, 8))
     ax = plt.axes(projection='3d')
-    
+
+    # Plot connections between the actual and predicted points
+    for i in range(len(list_x1)):
+        ax.plot([list_x1[i], list_x1[i]], [list_x2[i], list_x2[i]], [actual_y[i], predicted_y[i]], c='g')
+
+    # Plot the actual and predicted points
     ax.scatter(list_x1, list_x2, actual_y, c='b', label='actual function')
     ax.scatter(list_x1, list_x2, predicted_y, c='r', label='predicted function')
-
 
     ax.set_title('actual function & predicted function')
 
@@ -70,9 +74,29 @@ def print_func_two_D(list_x, actual_y, predicted_tree, actual_f, predicted_f, ph
     ax.set_xlabel('x1')
     ax.set_ylabel('x2')
     ax.set_zlabel('y')
-    
+
     ax.legend()
     name = f"actual_predicted_function_{photo_number}_" + '.png'
-
     plt.savefig(name)
     plt.show()
+
+
+    # fig = plt.figure(figsize = (8,8))
+    # ax = plt.axes(projection='3d')
+    
+    # ax.scatter(list_x1, list_x2, actual_y, c='b', label='actual function')
+    # ax.scatter(list_x1, list_x2, predicted_y, c='r', label='predicted function')
+
+
+    # ax.set_title('actual function & predicted function')
+
+    # # Set axes label
+    # ax.set_xlabel('x1')
+    # ax.set_ylabel('x2')
+    # ax.set_zlabel('y')
+    
+    # ax.legend()
+    # name = f"actual_predicted_function_{photo_number}_" + '.png'
+
+    # plt.savefig(name)
+    # plt.show()
