@@ -174,7 +174,7 @@ def making_children(parent_trees, k, pc, pm):
 if __name__ == "__main__":
     
     # parameters
-    domain = 20
+    amount = 100
 
     amount_of_trees = 100
     max_depth = 6
@@ -187,11 +187,11 @@ if __name__ == "__main__":
 
     
     # using domain
-    f = open('in_out3.txt', 'r')
+    f = open('in_out1.txt', 'r')
     given_function = f.readline().split(':')[1]
     X = []
     Y = []
-    for i in range(domain):
+    for i in range(amount):
         a = f.readline().split(',')
         X.append(int(a[0]))
         Y.append(float(a[1]))
