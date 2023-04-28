@@ -83,12 +83,17 @@ def Genetic_one_D_input(input_file_name):
         y_best_mae_of_all.append(y_min_mae)
         y_average_mae_of_each.append(average_mae)
 
+
+    print()
+    
+
     final_best_tree = None
     for i in y_best_tree:
         if i.mae==y_min_mae:
             final_best_tree = i
             
             
+    # print(final_best_tree)
     draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, final_best_tree, y_min_mae)
     
     print_function.print_func_one_D(X, Y, final_best_tree, given_function, final_best_tree.in_order, photo_number)
@@ -183,7 +188,7 @@ if __name__ == "__main__":
     # input_file_name = open('in_out1.txt', 'r')
     
     two_D = True
-    input_file_name = open('2D_in_out1.txt', 'r')
+    input_file_name = '2D_in_out1.txt'
 
     if(two_D==False):
         Genetic_one_D_input(input_file_name)

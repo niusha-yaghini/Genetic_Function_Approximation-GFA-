@@ -10,16 +10,18 @@ def my_operator():
 
 # choosing the leaf
 def my_leaf_one_D():
-    num = [rnd.randint(1, 9)]
-    var = ['x']
-    x = rnd.choice(num, var)
-    return(rnd.choice(x))
+    num = rnd.randint(1, 9)
+    var = 'x1'
+    x = rnd.random()
+    if(x<=0.5): return num
+    else: return var
 
 def my_leaf_two_D():
-    num = [rnd.randint(1, 9)]
+    num = rnd.randint(1, 9)
     var = ['x1', 'x2']
-    x = rnd.choice(num, var)
-    return(rnd.choice(x))
+    x = rnd.random()
+    if(x<=0.5): return num
+    else: return rnd.choice(var)
 
 # checking type of function (1 child needed or 2 childs needed)
 def single_op(op):
@@ -85,7 +87,7 @@ class Tree:
         # making the inorder show of our tree
         
         self.in_order = self.to_math_string(self.root)
-        print(self.in_order)        
+        # print(self.in_order)        
    
     def to_math_string(self, node):
         if(node.is_leaf):
@@ -109,7 +111,7 @@ def random_trees(amount, max_depth, two_D_flag):
 
     trees = []
     for i in range(amount):
-        print(f"tree number {i+1} is: ", end='')
+        # print(f"tree number {i+1} is: ", end='')
         tree = tree_making(max_depth, two_D_flag)
         trees.append(tree)
     return trees
@@ -139,7 +141,7 @@ def calculator(two_D_flag, root, x, flag):
     else:
         
         if(len(root.children)==1):
-            val = calculator(root.children[0], x, flag)
+            val = calculator(two_D_flag, root.children[0], x, flag)
         else:       
             left_val = calculator(two_D_flag, root.children[0], x, flag)
             right_val = calculator(two_D_flag, root.children[1], x, flag)

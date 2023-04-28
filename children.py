@@ -82,8 +82,8 @@ def cross_over(parent1, parent2, pc):
 
         replace_nodes(child1.root, choosed_node1, child2.root, choosed_node2)
 
-        child1.print_tree()
-        child2.print_tree()
+        # child1.print_tree()
+        # child2.print_tree()
 
         # print("parent1.in_order = ", parent1.in_order)
         # print("parent2.in_order = ", parent2.in_order)
@@ -163,5 +163,8 @@ def making_children(parent_trees, k, pc, pm):
         children.append(child2)
     
     mutation(children, pm)
-    
+
+    for c in children:
+        c.print_tree()
+
     return children

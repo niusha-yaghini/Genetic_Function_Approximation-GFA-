@@ -6,14 +6,14 @@ def making_x_points(x1_domain, x2_domain):
     x = []
     
     for i in range(x1_domain[0], x1_domain[1]+1):
-        for j in range(x2_domain[0], x2_domain[1]):
+        for j in range(x2_domain[0], x2_domain[1]+1):
             x.append((i, j))
     
     return x
 
 
 # making the y points    
-def making_y_points1(x1, x2):
+def making_y_points1(x):
     y = []
     for i in x:
         r = my_function(i[0], i[1])
