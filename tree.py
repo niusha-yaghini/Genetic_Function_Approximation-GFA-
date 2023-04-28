@@ -85,7 +85,7 @@ class Tree:
         # making the inorder show of our tree
         
         self.in_order = self.to_math_string(self.root)
-        # print(self.in_order)        
+        print(self.in_order)        
    
     def to_math_string(self, node):
         if(node.is_leaf):
@@ -109,7 +109,7 @@ def random_trees(amount, max_depth, two_D_flag):
 
     trees = []
     for i in range(amount):
-        # print(f"tree number {i+1} is: ", end='')
+        print(f"tree number {i+1} is: ", end='')
         tree = tree_making(max_depth, two_D_flag)
         trees.append(tree)
     return trees
