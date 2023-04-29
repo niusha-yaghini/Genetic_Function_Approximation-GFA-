@@ -143,10 +143,15 @@ def Genetic_two_D_input(input_file_name):
         y_best_mae_of_all.append(y_min_mae)
         y_average_mae_of_each.append(average_mae)
 
+    # print(y_min_mae)
+    # print(min(y_best_mae_of_all))
+
     final_best_tree = None
-    for i in y_best_tree:
-        if i.mae==y_min_mae:
-            final_best_tree = i   
+    
+    for t in y_best_tree:
+        # print(t.mae)
+        if t.mae==y_min_mae:
+            final_best_tree = t 
             
     final_best_tree_in_order = tree.to_math_string(final_best_tree.root)
             
@@ -159,12 +164,12 @@ def Genetic_two_D_input(input_file_name):
     
 if __name__ == "__main__":
     
-    photo_number = 4
+    photo_number = 5
     
     # parameters
     amount = 100
 
-    amount_of_trees = 200
+    amount_of_trees = 100
     max_depth = 8
 
     k = 3 # k tournoment parameter
