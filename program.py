@@ -15,7 +15,6 @@ def draw_average_mae(x_generation_number, y_average_mae_of_each, given_function)
     plt.savefig(name)
     plt.show()
     
-    
 def draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, y_min_mae):
 
     fig, ax = plt.subplots()
@@ -30,7 +29,6 @@ def draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, gi
 
     plt.savefig(name)
     plt.show()
-    
     
 def Genetic_one_D_input(input_file_name):
 
@@ -95,7 +93,6 @@ def Genetic_one_D_input(input_file_name):
     print_function.print_func_one_D(X, Y, final_best_tree, given_function, final_best_tree_in_order, photo_number)
 
     draw_average_mae(x_generation_number, y_average_mae_of_each, given_function)
-   
      
 def Genetic_two_D_input(input_file_name):
 
@@ -124,7 +121,6 @@ def Genetic_two_D_input(input_file_name):
     y_best_tree = []
     y_min_mae = None
     
-    
     # appending 0 generation information
     x_generation_number.append(0)
     y_average_mae_of_each.append(parents_average_mae)
@@ -132,7 +128,6 @@ def Genetic_two_D_input(input_file_name):
     y_best_mae_of_all.append(parents_best_mae)
     y_best_tree.append(best_parent_tree)
 
-    
     for i in range(amount_of_generations):
     
         print(f"population number {i+1}")
@@ -151,8 +146,7 @@ def Genetic_two_D_input(input_file_name):
     final_best_tree = None
     for i in y_best_tree:
         if i.mae==y_min_mae:
-            final_best_tree = i
-            
+            final_best_tree = i   
             
     final_best_tree_in_order = tree.to_math_string(final_best_tree.root)
             
@@ -163,7 +157,6 @@ def Genetic_two_D_input(input_file_name):
     draw_average_mae(x_generation_number, y_average_mae_of_each, given_function)
 
     
-
 if __name__ == "__main__":
     
     photo_number = 4
@@ -191,7 +184,6 @@ if __name__ == "__main__":
     else:
         Genetic_two_D_input(input_file_name)
         
-
     # new generation is the children
 
     print()

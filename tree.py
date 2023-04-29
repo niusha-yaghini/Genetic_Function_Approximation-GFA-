@@ -146,7 +146,6 @@ def calculator(two_D_flag, root, x, flag):
             left_val = calculator(two_D_flag, root.children[0], x, flag)
             right_val = calculator(two_D_flag, root.children[1], x, flag)
 
-
         if (root.operator == 'sin'):
             try:
                 return math.sin(val)

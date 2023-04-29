@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import tree
 
+
 def result_one_D(t, list_x):    
     trees_y = []
     for single_x in list_x:
@@ -40,7 +41,6 @@ def result_two_D(t, list_x):
         trees_y.append(t_y)
     return trees_y
     
-    
 def couple_to_list(list_x):
     x1 = []
     x2 = []
@@ -49,7 +49,6 @@ def couple_to_list(list_x):
         x2.append(i[1])
         
     return x1, x2
-
     
 def print_func_two_D(list_x, actual_y, predicted_tree, actual_f, predicted_f, photo_number):
     
@@ -79,24 +78,3 @@ def print_func_two_D(list_x, actual_y, predicted_tree, actual_f, predicted_f, ph
     name = f"actual_predicted_function_{photo_number}_" + '.png'
     plt.savefig(name)
     plt.show()
-
-
-    # fig = plt.figure(figsize = (8,8))
-    # ax = plt.axes(projection='3d')
-    
-    # ax.scatter(list_x1, list_x2, actual_y, c='b', label='actual function')
-    # ax.scatter(list_x1, list_x2, predicted_y, c='r', label='predicted function')
-
-
-    # ax.set_title('actual function & predicted function')
-
-    # # Set axes label
-    # ax.set_xlabel('x1')
-    # ax.set_ylabel('x2')
-    # ax.set_zlabel('y')
-    
-    # ax.legend()
-    # name = f"actual_predicted_function_{photo_number}_" + '.png'
-
-    # plt.savefig(name)
-    # plt.show()

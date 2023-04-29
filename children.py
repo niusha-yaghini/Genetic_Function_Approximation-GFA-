@@ -130,9 +130,7 @@ def mutation(children, pm):
             choosed_node = rnd.choice(nodes)
             
             change_node(child.root, choosed_node)
-            
-            # child.print_tree()
-          
+                      
 def making_children(parent_trees, k, pc, pm):
     # we want to make children on base of a list of trees (parent_trees)
     
