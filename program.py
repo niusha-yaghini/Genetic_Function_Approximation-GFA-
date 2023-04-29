@@ -17,7 +17,7 @@ def draw_average_mae(x_generation_number, y_average_mae_of_each, given_function)
 
     
     
-def draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, final_best_tree, y_min_mae):
+def draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, y_min_mae):
 
     fig, ax = plt.subplots()
     best_of_each,  = plt.plot(x_generation_number, y_best_mae_of_each, label='best of this generation')
@@ -27,7 +27,6 @@ def draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, gi
     ax.legend(handles=[best_of_each, best_of_all])
     name = f"result_{photo_number}_" + str(amount_of_trees) + '.png'
 
-    print("the function that my genetic believes: ", final_best_tree.in_order)
     print("best mae: ", y_min_mae)
 
     plt.savefig(name)
@@ -83,20 +82,18 @@ def Genetic_one_D_input(input_file_name):
         y_best_mae_of_all.append(y_min_mae)
         y_average_mae_of_each.append(average_mae)
 
-
-    print()
-    
+    print()    
 
     final_best_tree = None
     for i in y_best_tree:
         if i.mae==y_min_mae:
             final_best_tree = i
             
-            
-    # print(final_best_tree)
-    draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, final_best_tree, y_min_mae)
+    final_best_tree_in_order = tree.to_math_string(final_best_tree.root)            
+
+    draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, y_min_mae)
     
-    print_function.print_func_one_D(X, Y, final_best_tree, given_function, final_best_tree.in_order, photo_number)
+    print_function.print_func_one_D(X, Y, final_best_tree, given_function, final_best_tree_in_order, photo_number)
 
     draw_average_mae(x_generation_number, y_average_mae_of_each, given_function)
    
@@ -159,9 +156,11 @@ def Genetic_two_D_input(input_file_name):
             final_best_tree = i
             
             
-    draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, final_best_tree, y_min_mae)
+    final_best_tree_in_order = tree.to_math_string(final_best_tree.root)
+            
+    draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, y_min_mae)
     
-    print_function.print_func_two_D(X, Y, final_best_tree, given_function, final_best_tree.in_order, photo_number)
+    print_function.print_func_two_D(X, Y, final_best_tree, given_function, final_best_tree_in_order, photo_number)
 
     draw_average_mae(x_generation_number, y_average_mae_of_each, given_function)
 
@@ -175,13 +174,13 @@ if __name__ == "__main__":
     amount = 100
 
     amount_of_trees = 200
-    max_depth = 10
+    max_depth = 8
 
     k = 3 # k tournoment parameter
     pc = 0.5 # the probblity of cross-over
     pm = 0.5 # the probblity of mutation
 
-    amount_of_generations = 100
+    amount_of_generations = 50
 
     
     # two_D = False

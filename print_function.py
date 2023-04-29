@@ -20,7 +20,7 @@ def print_func_one_D(list_x, actual_y, predicted_tree, actual_f, predicted_f, ph
     actual_function,  = plt.plot(list_x, actual_y, label='actual function')
     predicted_function, = plt.plot(list_x, predicted_y, label='predicted function')
 
-    ax.set_title(f"actual function: {actual_f}, predicted function: {predicted_f}")
+    ax.set_title(f"actual function = {actual_f}, predicted function = {predicted_f}")
     ax.legend(handles=[actual_function, predicted_function])
     name = f"actual_predicted_function_{photo_number}_" + '.png'
 
@@ -68,7 +68,7 @@ def print_func_two_D(list_x, actual_y, predicted_tree, actual_f, predicted_f, ph
     ax.scatter(list_x1, list_x2, actual_y, c='b', label='actual function')
     ax.scatter(list_x1, list_x2, predicted_y, c='r', label='predicted function')
 
-    ax.set_title('actual function & predicted function')
+    ax.set_title(f'actual function = {actual_f} & predicted function = {predicted_f}')
 
     # Set axes label
     ax.set_xlabel('x1')

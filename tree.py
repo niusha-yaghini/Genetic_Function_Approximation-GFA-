@@ -46,7 +46,7 @@ class Tree:
         self.max_depth = _max_depth
         self.two_D_flag = _two_D_flag
         self.root = None
-        self.in_order = None
+        # self.in_order = None
         self.mae = None        
         
     def _fit(self):
@@ -83,27 +83,27 @@ class Tree:
         if(depth==0): n.is_leaf = True
         return n          
 
-    def print_tree(self):
+    # def print_tree(self):
         # making the inorder show of our tree
         
-        self.in_order = self.to_math_string(self.root)
+        # self.in_order = self.to_math_string(self.root)
         # print(self.in_order)        
    
-    def to_math_string(self, node):
-        if(node.is_leaf):
-            return f"{node.operator}"
+def to_math_string(node):
+    if(node.is_leaf):
+        return f"{node.operator}"
+    else:
+        if(len(node.children)) == 1:
+            return f"{node.operator}({to_math_string(node.children[0])})"
         else:
-            if(len(node.children)) == 1:
-                return f"{node.operator}({self.to_math_string(node.children[0])})"
-            else:
-                return f"({self.to_math_string(node.children[0])}{node.operator}{self.to_math_string(node.children[1])})"
+            return f"({to_math_string(node.children[0])}{node.operator}{to_math_string(node.children[1])})"
 
 def tree_making(max_depth, two_D_flag):  
     # making each of our trees
 
     t = Tree(max_depth, two_D_flag)
     t._fit()
-    t.print_tree()
+    # t.print_tree()
     return t     
         
 def random_trees(amount, max_depth, two_D_flag):
@@ -148,9 +148,17 @@ def calculator(two_D_flag, root, x, flag):
 
 
         if (root.operator == 'sin'):
-            return math.sin(val)
+            try:
+                return math.sin(val)
+            except:
+                flag = True
+                return 1
         elif (root.operator == 'cos'):
-            return math.cos(val)
+            try:
+                return math.cos(val)
+            except:
+                flag = True
+                return 1
         elif (root.operator == '+'):
             return left_val + right_val
         elif (root.operator == '-'):

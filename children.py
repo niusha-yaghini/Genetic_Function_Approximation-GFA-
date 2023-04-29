@@ -74,23 +74,8 @@ def cross_over(parent1, parent2, pc):
         choosed_node1 = rnd.choice(nodes1)
         choosed_node2 = rnd.choice(nodes2)
         
-        # print("parent1.in_order = ", parent1.in_order)
-        # print("parent2.in_order = ", parent2.in_order)
-
-        # print("choosed_node1.operator (before change) = ", choosed_node1.operator)
-        # print("choosed_node2.operator (before change) = ", choosed_node2.operator)
-
         replace_nodes(child1.root, choosed_node1, child2.root, choosed_node2)
 
-        # child1.print_tree()
-        # child2.print_tree()
-
-        # print("parent1.in_order = ", parent1.in_order)
-        # print("parent2.in_order = ", parent2.in_order)
-
-        # print("choosed_node1.operator (after change) = ", choosed_node1.operator)
-        # print("choosed_node2.operator (after change) = ", choosed_node2.operator)
-        
         return child1, child2
     
     else:
@@ -146,7 +131,7 @@ def mutation(children, pm):
             
             change_node(child.root, choosed_node)
             
-            child.print_tree()
+            # child.print_tree()
           
 def making_children(parent_trees, k, pc, pm):
     # we want to make children on base of a list of trees (parent_trees)
@@ -164,7 +149,7 @@ def making_children(parent_trees, k, pc, pm):
     
     mutation(children, pm)
 
-    for c in children:
-        c.print_tree()
+    # for c in children:
+    #     c.print_tree()
 
     return children
