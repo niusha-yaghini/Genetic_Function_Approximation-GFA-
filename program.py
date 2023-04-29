@@ -14,7 +14,6 @@ def draw_average_mae(x_generation_number, y_average_mae_of_each, given_function)
 
     plt.savefig(name)
     plt.show()
-
     
     
 def draw_best_mae(x_generation_number, y_best_mae_of_each, y_best_mae_of_all, given_function, y_min_mae):
@@ -97,8 +96,7 @@ def Genetic_one_D_input(input_file_name):
 
     draw_average_mae(x_generation_number, y_average_mae_of_each, given_function)
    
-   
-    
+     
 def Genetic_two_D_input(input_file_name):
 
     # using domain 2D
@@ -182,7 +180,6 @@ if __name__ == "__main__":
 
     amount_of_generations = 50
 
-    
     # two_D = False
     # input_file_name = open('in_out1.txt', 'r')
     
@@ -194,7 +191,6 @@ if __name__ == "__main__":
     else:
         Genetic_two_D_input(input_file_name)
         
-
 
     # new generation is the children
 
