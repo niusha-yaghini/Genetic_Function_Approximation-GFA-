@@ -1,0 +1,1 @@
+y_min_mse: 0.03869793348999281, final_best_tree_in_order: (((x2/(5**6))*(7/5))**(3-cos(9))), final_best_tree_pre_order: **,*,/,x2,,**,5,,6,,,,/,7,,5,,,,-,3,,cos,9,,,,y_min_mse: 0.03869793348999281, final_best_tree_in_order: (((x2/(5**6))*(7/5))**(3-cos(9))), final_best_tree_pre_order: **,*,/,x2,,**,5,,6,,,,/,7,,5,,,,-,3,,cos,9,,,,

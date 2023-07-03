@@ -188,11 +188,8 @@ def calculator(two_D_flag, root, x, flag):
                 return x
         
 def mean_abs_error(true_y, my_y):
-    amount = len(my_y)
-    sum = 0
-    for i in range(amount):
-        sum += abs(my_y[i]-true_y[i])
-    return sum/amount
+    r = mean_squared_error(true_y, my_y)
+    return r
         
 def _mae(tree, list_x, list_y):
     # calculating each tree mae with given inputs and outputs
@@ -205,7 +202,9 @@ def _mae(tree, list_x, list_y):
             t_y = 100000
 
         trees_y.append(t_y)
-    mae = mean_abs_error(list_y, trees_y)
+    # mae = mean_abs_error(list_y, trees_y)
+    mae = mean_squared_error(list_y, trees_y)
+
     return mae
 
 def calculating_mae(tree_list, X, Y):
@@ -225,3 +224,12 @@ def calculating_mae(tree_list, X, Y):
         i += 1
 
     return mae_sum/i, best_mae, best_tree
+
+def PreorderTraversal(node):
+    if(node.is_leaf):
+        return f"{node.operator},"
+    else:
+        if(len(node.children)) == 1:
+            return f"{node.operator},{PreorderTraversal(node.children[0])},"
+        else:
+            return f"{node.operator},{PreorderTraversal(node.children[0])},{PreorderTraversal(node.children[1])},"
